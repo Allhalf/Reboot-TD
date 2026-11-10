@@ -1,0 +1,2154 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ReBoot Tech &amp; Trade</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Pixelify+Sans:wght@500;700&display=swap">
+<style>
+/* Elrendezés: nyomtatott áramkör a lap két szélén, középen egy oszlopos katalógus-papír.
+   Színek: papír, palakék tinta, rézbarna nyomvonal, egy mély réz kiemelés, kijelző-zöld a POST panelhez. */
+:root {
+  --paper: #ECE5D4;
+  --paper-2: #E2DAC6;
+  --paper-3: #F5F0E4;
+  --bar: rgba(236, 229, 212, 0.92);
+  --ink: #2E3844;
+  --ink-soft: #566170;
+  --on-ink: #F5F0E4;
+  --line: #CDC3AA;
+  --trace: #9C7648;
+  --accent: #84501F;
+  --ok: #2B7448;
+  --warn: #9A5F10;
+  --bad: #A03A2C;
+  --screen-bg: #27313B;
+  --screen-fg: #D7E6CF;
+  --screen-dim: #8FA190;
+  --screen-warn: #E9C46A;
+  --grain-op: .13;
+  --trace-op: .55;
+  --f-display: 'Pixelify Sans', 'Courier New', monospace;
+  --f-body: 'Fira Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --t-xs: .78rem;
+  --t-sm: .9rem;
+  --t-md: 1rem;
+  --t-lg: 1.25rem;
+  --t-xl: clamp(1.9rem, 4.2vw, 2.7rem);
+  --t-hero: clamp(3.4rem, 12.5vw, 7.6rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1C2228;
+    --paper-2: #252D35;
+    --paper-3: #2B343D;
+    --bar: rgba(28, 34, 40, 0.92);
+    --ink: #E9E2D0;
+    --ink-soft: #A4ADB6;
+    --on-ink: #1C2228;
+    --line: #3A444E;
+    --trace: #B98E5A;
+    --accent: #DDA969;
+    --ok: #6CC08C;
+    --warn: #E4A44E;
+    --bad: #E58272;
+    --screen-bg: #12171B;
+    --screen-fg: #CFE3C6;
+    --screen-dim: #7F917F;
+    --grain-op: .07;
+    --trace-op: .5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1C2228;
+  --paper-2: #252D35;
+  --paper-3: #2B343D;
+  --bar: rgba(28, 34, 40, 0.92);
+  --ink: #E9E2D0;
+  --ink-soft: #A4ADB6;
+  --on-ink: #1C2228;
+  --line: #3A444E;
+  --trace: #B98E5A;
+  --accent: #DDA969;
+  --ok: #6CC08C;
+  --warn: #E4A44E;
+  --bad: #E58272;
+  --screen-bg: #12171B;
+  --screen-fg: #CFE3C6;
+  --screen-dim: #7F917F;
+  --grain-op: .07;
+  --trace-op: .5;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font: 400 16px/1.6 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--paper);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  opacity: var(--grain-op);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#traces {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: var(--trace-op);
+}
+.page { position: relative; z-index: 1; }
+
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-family: var(--f-display); font-weight: 700; line-height: 1.05; }
+p { margin: 0; }
+.wrap {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.mono { font-family: var(--f-mono); }
+.mark { display: block; }
+.mark svg { display: block; width: 100%; height: 100%; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* gombok */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  min-height: 46px; padding: .6rem 1.25rem;
+  font: 500 var(--t-md)/1.2 var(--f-body);
+  border: 2px solid var(--ink); background: transparent; color: var(--ink);
+  cursor: pointer; text-decoration: none;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+.btn:hover { background: var(--paper-2); }
+.btn.primary { background: var(--ink); color: var(--on-ink); box-shadow: 4px 4px 0 var(--trace); }
+.btn.primary:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--trace); background: var(--ink); }
+.btn.primary:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--trace); }
+.btn.small { min-height: 38px; padding: .35rem .85rem; font-size: var(--t-sm); }
+.icon-btn {
+  position: relative; display: inline-grid; place-items: center;
+  width: 44px; height: 44px; padding: 0;
+  border: 2px solid var(--ink); background: transparent; cursor: pointer;
+}
+.icon-btn:hover { background: var(--paper-2); }
+.icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: square; stroke-linejoin: miter; }
+.badge-count {
+  position: absolute; top: -9px; right: -9px; min-width: 22px; height: 22px; padding: 0 5px;
+  display: grid; place-items: center;
+  background: var(--accent); color: var(--paper); border: 2px solid var(--paper);
+  font: 500 .72rem/1 var(--f-mono);
+}
+
+/* fejléc */
+.site-head {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40;
+  background: var(--paper); background: var(--bar);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--ink);
+}
+.head-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-block: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
+.brand .mark { width: 40px; height: 40px; color: var(--ink); flex: none; }
+.brand-name { font: 700 1.35rem/1 var(--f-display); letter-spacing: .01em; }
+.brand-name small { display: block; font: 500 .62rem/1.2 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 3px; }
+.nav { display: flex; gap: 4px; order: 2; }
+.nav a {
+  padding: .5rem .8rem; text-decoration: none; font-weight: 500; font-size: var(--t-sm);
+  border-bottom: 2px solid transparent;
+}
+.nav a:hover { border-bottom-color: var(--trace); }
+.head-actions { display: flex; gap: 12px; order: 3; padding-right: 8px; }
+@media (max-width: 800px) {
+  .nav { order: 4; width: 100%; overflow-x: auto; margin-inline: -4px; padding-bottom: 2px; scrollbar-width: none; }
+  .nav a { white-space: nowrap; }
+  .head-actions { order: 2; }
+}
+
+/* hős */
+.hero { padding-block: clamp(28px, 6vw, 72px) clamp(28px, 5vw, 56px); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } }
+.lockup { display: flex; align-items: center; gap: clamp(10px, 2.4vw, 26px); }
+.lockup .mark { width: clamp(78px, 17vw, 168px); height: auto; aspect-ratio: 1; color: var(--ink); flex: none; }
+.wordmark { display: flex; flex-direction: column; gap: .12em; min-width: 0; }
+.wm-re { font-size: var(--t-hero); line-height: .86; letter-spacing: -.01em; }
+.wm-sub { font-size: calc(var(--t-hero) * .46); line-height: .9; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; }
+.tagline { margin-top: 28px; font-size: clamp(1.15rem, 2.4vw, 1.55rem); line-height: 1.3; max-width: 26ch; font-weight: 500; text-wrap: balance; }
+.tagline-en { margin-top: 8px; font: 400 var(--t-xs)/1.5 var(--f-mono); letter-spacing: .06em; color: var(--ink-soft); }
+.hero-copy { margin-top: 22px; max-width: 52ch; color: var(--ink-soft); font-size: 1.05rem; }
+.hero-cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 16px; }
+
+.screen {
+  background: var(--screen-bg); color: var(--screen-fg);
+  border: 2px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--trace);
+  font: 400 clamp(.7rem, 1.9vw, .84rem)/1.75 var(--f-mono);
+  min-width: 0;
+}
+.screen-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-bottom: 1px solid color-mix(in srgb, var(--screen-fg) 28%, transparent); color: var(--screen-dim); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+.screen-bar i { width: 9px; height: 9px; border: 1.5px solid var(--screen-dim); display: block; }
+.screen-bar span { margin-left: auto; }
+.screen-body { padding: 14px 14px 16px; overflow-x: auto; white-space: pre; }
+.screen .dim { color: var(--screen-dim); }
+.screen .ok { color: var(--screen-fg); font-weight: 500; }
+.screen .warn { color: var(--screen-warn); font-weight: 500; }
+.cursor { display: inline-block; width: .6em; height: 1.05em; vertical-align: -.17em; background: var(--screen-fg); animation: blink 1.05s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.datasheet { margin-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+.datasheet div { padding: 16px 16px 16px 0; min-width: 0; }
+.datasheet div + div { padding-left: 16px; border-left: 1px solid var(--line); }
+.datasheet dt { font: 500 var(--t-xs)/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.datasheet dd { margin: 6px 0 0; font: 700 1.5rem/1.1 var(--f-display); }
+.datasheet dd small { display: block; margin-top: 4px; font: 400 var(--t-sm)/1.4 var(--f-body); color: var(--ink-soft); }
+@media (max-width: 760px) {
+  .datasheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .datasheet div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .datasheet div:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+
+/* szekciók */
+.sec { padding-block: clamp(44px, 7vw, 88px); }
+.sec-head { margin-bottom: 28px; display: grid; gap: 10px; max-width: 62ch; }
+.eyebrow { display: flex; align-items: center; gap: 10px; font: 500 var(--t-xs)/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.eyebrow::before { content: ""; width: 12px; height: 12px; border: 3px solid var(--trace); border-radius: 50%; flex: none; }
+.sec-head h2 { font-size: var(--t-xl); }
+.lede { color: var(--ink-soft); font-size: 1.05rem; }
+
+/* katalógus */
+.toolbar { display: grid; gap: 14px; margin-bottom: 22px; }
+.toolbar-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > label, .group-label { font: 500 var(--t-xs)/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.input, .select {
+  min-height: 44px; padding: .45rem .75rem; width: 100%;
+  border: 2px solid var(--ink); background: var(--paper-3); border-radius: 0;
+}
+.select { appearance: none; padding-right: 2rem; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+.input::placeholder { color: var(--ink-soft); opacity: .8; }
+.search { flex: 1 1 260px; }
+.sortbox { flex: 0 1 230px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  min-height: 40px; padding: .3rem .9rem; cursor: pointer;
+  border: 2px solid var(--ink); background: transparent; font-size: var(--t-sm); font-weight: 500;
+}
+.chip:hover { background: var(--paper-2); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.chip .n { font: 400 .72rem var(--f-mono); opacity: .75; margin-left: .35rem; }
+.legend { font-size: var(--t-sm); color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.legend b { font: 500 var(--t-sm) var(--f-mono); color: var(--ink); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 20px; }
+.card {
+  display: flex; flex-direction: column; min-width: 0;
+  background: var(--paper-3); border: 1.5px solid var(--line);
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+}
+.card:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--trace); border-color: var(--ink); }
+.art { position: relative; aspect-ratio: 4 / 3; background: var(--paper-2); border-bottom: 1.5px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+.art > svg.pic { width: 72%; max-width: 100%; height: auto; stroke: var(--ink); fill: none; stroke-width: 3; stroke-linecap: square; stroke-linejoin: miter; }
+.art .f { fill: var(--paper-3); }
+.art .t { stroke: var(--trace); }
+.art .tf { fill: var(--trace); stroke: none; }
+.art .ink { fill: var(--ink); stroke: none; }
+.art .bgtrace { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--trace); fill: none; stroke-width: 1.5; opacity: .35; }
+.grade { position: absolute; top: 10px; left: 10px; padding: 3px 8px; background: var(--paper-3); border: 1.5px solid var(--ink); font: 500 .72rem/1.3 var(--f-mono); letter-spacing: .06em; }
+.card-body { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; flex: 1; }
+.card h3 { font-size: 1.2rem; line-height: 1.15; }
+.meta { font: 400 var(--t-xs)/1.5 var(--f-mono); color: var(--ink-soft); letter-spacing: .02em; }
+.spec-line { font-size: var(--t-sm); color: var(--ink-soft); }
+.card-foot { margin-top: auto; padding-top: 12px; display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.price { font: 700 1.45rem/1 var(--f-display); color: var(--accent); white-space: nowrap; }
+.stock { display: block; margin-top: 6px; font: 400 var(--t-xs)/1.2 var(--f-mono); color: var(--ok); }
+.stock.low { color: var(--warn); }
+.empty { padding: 40px 18px; border: 2px dashed var(--line); text-align: center; color: var(--ink-soft); }
+
+/* kosár */
+.backdrop { position: fixed; inset: 0; z-index: 60; background: rgba(20, 24, 28, .55); }
+.drawer {
+  position: fixed; z-index: 61; top: 0; right: 0; bottom: 0;
+  width: min(430px, 100%); display: flex; flex-direction: column;
+  background: var(--paper); border-left: 2px solid var(--ink);
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  transform: translateX(100%); visibility: hidden;
+  transition: transform .24s ease, visibility 0s linear .24s;
+}
+.drawer.open { transform: none; visibility: visible; transition: transform .24s ease; }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px max(18px, env(safe-area-inset-right, 0px)) 14px 18px; border-bottom: 2px solid var(--ink); }
+.drawer-head h2 { font-size: 1.5rem; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 8px max(18px, env(safe-area-inset-right, 0px)) 8px 18px; }
+.line { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.line .thumb { width: 64px; height: 52px; background: var(--paper-2); border: 1px solid var(--line); display: grid; place-items: center; }
+.line .thumb svg { width: 80%; height: auto; stroke: var(--ink); fill: none; stroke-width: 4; stroke-linecap: square; }
+.line .thumb .f { fill: var(--paper-3); }
+.line .thumb .t { stroke: var(--trace); }
+.line .thumb .tf { fill: var(--trace); stroke: none; }
+.line .thumb .ink { fill: var(--ink); stroke: none; }
+.line .nm { font-weight: 500; line-height: 1.25; }
+.line .pr { font: 400 var(--t-sm) var(--f-mono); color: var(--ink-soft); }
+.qty { display: inline-flex; align-items: center; margin-top: 8px; border: 1.5px solid var(--ink); }
+.qty button { width: 32px; height: 32px; border: 0; background: transparent; cursor: pointer; font-size: 1.1rem; line-height: 1; }
+.qty button:hover { background: var(--paper-2); }
+.qty span { min-width: 30px; text-align: center; font: 500 var(--t-sm) var(--f-mono); }
+.line .sum { font: 700 1.05rem var(--f-display); text-align: right; white-space: nowrap; }
+.rm { display: block; margin: 6px 0 0 auto; border: 0; background: none; cursor: pointer; font: 400 var(--t-xs) var(--f-mono); color: var(--ink-soft); text-decoration: underline; }
+.drawer-foot { border-top: 2px solid var(--ink); padding: 16px max(18px, env(safe-area-inset-right, 0px)) 18px 18px; display: grid; gap: 12px; background: var(--paper-3); }
+.total { display: flex; justify-content: space-between; align-items: baseline; font-weight: 500; }
+.total strong { font: 700 1.6rem var(--f-display); color: var(--accent); }
+.fine { font-size: var(--t-xs); color: var(--ink-soft); line-height: 1.5; }
+.resv { border: 2px dashed var(--ink); padding: 12px; font: 400 var(--t-xs)/1.6 var(--f-mono); white-space: pre-wrap; word-break: break-word; background: var(--paper); max-height: 180px; overflow: auto; }
+.toast {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 24px);
+  z-index: 80; max-width: calc(100% - 32px); padding: 10px 16px;
+  background: var(--ink); color: var(--on-ink); font: 500 var(--t-sm) var(--f-body);
+  box-shadow: 4px 4px 0 var(--trace); opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* beszámítás */
+.calc { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); border: 2px solid var(--ink); background: var(--paper-3); box-shadow: 8px 8px 0 var(--trace); }
+@media (max-width: 880px) { .calc { grid-template-columns: minmax(0, 1fr); } }
+.calc-in { padding: clamp(18px, 3vw, 30px); display: grid; gap: 22px; align-content: start; }
+.calc-out { padding: clamp(18px, 3vw, 30px); background: var(--ink); color: var(--on-ink); display: grid; gap: 18px; align-content: start; min-width: 0; }
+@media (max-width: 880px) { .calc-out { border-top: 2px solid var(--ink); } }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { position: relative; }
+.opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.opt span { display: flex; align-items: center; min-height: 40px; padding: .3rem .85rem; border: 2px solid var(--ink); font-size: var(--t-sm); font-weight: 500; background: transparent; }
+.opt input:checked + span { background: var(--ink); color: var(--on-ink); }
+.opt input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.opt input[type="checkbox"]:checked + span::before { content: "✓"; margin-right: .45rem; }
+.range-row { display: grid; gap: 8px; }
+.range-row .top { display: flex; justify-content: space-between; align-items: baseline; }
+.range-row output { font: 700 1.3rem var(--f-display); }
+input[type="range"] { width: 100%; height: 30px; accent-color: var(--accent); cursor: pointer; }
+.hint { font-size: var(--t-sm); color: var(--ink-soft); min-height: 1.4em; }
+.out-label { font: 500 var(--t-xs)/1.2 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+.out-value { font: 700 clamp(1.9rem, 5vw, 2.8rem)/1.05 var(--f-display); margin-top: 6px; overflow-wrap: anywhere; }
+.out-voucher { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 14px; border-top: 1px dashed color-mix(in srgb, var(--on-ink) 45%, transparent); }
+.out-voucher strong { font: 700 1.35rem var(--f-display); }
+.meter { margin-top: 4px; }
+.track { position: relative; height: 16px; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--on-ink) 25%, transparent) 0 2px, transparent 2px 8px); border: 1.5px solid color-mix(in srgb, var(--on-ink) 70%, transparent); }
+.band { position: absolute; top: -1.5px; bottom: -1.5px; background: var(--trace); border: 1.5px solid var(--on-ink); min-width: 4px; transition: left .25s ease, width .25s ease; }
+.ticks { display: flex; justify-content: space-between; margin-top: 6px; font: 400 .68rem var(--f-mono); opacity: .75; }
+.calc-out .btn { border-color: var(--on-ink); color: var(--on-ink); }
+.calc-out .btn.primary { background: var(--on-ink); color: var(--ink); box-shadow: 4px 4px 0 var(--trace); }
+.calc-out .btn.primary:hover { background: var(--on-ink); }
+.calc-out .fine { color: var(--on-ink); opacity: .7; }
+
+/* folyamat */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; position: relative; counter-reset: none; }
+.steps li { position: relative; padding: 0 22px 0 0; }
+.steps li + li { padding-left: 22px; }
+.steps li::before { content: ""; display: block; height: 0; border-top: 3px solid var(--trace); margin: 13px 0 0; position: absolute; left: 0; right: 0; top: 0; }
+.step-pad { display: block; width: 28px; height: 28px; margin-bottom: 16px; border: 3px solid var(--trace); background: var(--paper); border-radius: 50%; position: relative; z-index: 1; font: 700 .85rem/22px var(--f-mono); text-align: center; color: var(--ink); }
+.steps h3 { font-size: 1.35rem; margin-bottom: 8px; }
+.steps p { color: var(--ink-soft); }
+@media (max-width: 760px) {
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .steps li, .steps li + li { padding: 0 0 0 44px; }
+  .steps li::before { border-top: 0; border-left: 3px solid var(--trace); left: 13px; right: auto; top: 28px; bottom: -26px; height: auto; margin: 0; }
+  .steps li:last-child::before { display: none; }
+  .step-pad { position: absolute; left: 0; top: 0; margin: 0; }
+}
+.post { margin-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+@media (max-width: 860px) { .post { grid-template-columns: minmax(0, 1fr); } }
+.post h3 { font-size: 1.6rem; margin-bottom: 10px; }
+.post p { color: var(--ink-soft); }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 22px; font: 400 var(--t-sm)/1.4 var(--f-mono); }
+@media (max-width: 520px) { .checks { grid-template-columns: minmax(0, 1fr); } }
+.checks li { display: flex; gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.checks li::before { content: "OK"; flex: none; padding: 1px 5px; background: var(--ok); color: var(--paper-3); font-size: .68rem; font-weight: 500; letter-spacing: .06em; }
+
+/* gyik */
+.faq { display: grid; gap: 0; max-width: 820px; border-top: 2px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 18px 44px 18px 0; position: relative; font: 700 1.2rem/1.25 var(--f-display); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 6px; top: 14px; font: 500 1.6rem/1 var(--f-mono); color: var(--accent); }
+.faq details[open] summary::after { content: "−"; }
+.faq summary:hover { color: var(--accent); }
+.faq .ans { padding: 0 0 20px; color: var(--ink-soft); max-width: 64ch; }
+
+/* kapcsolat */
+.contact { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(22px, 4vw, 52px); align-items: start; }
+@media (max-width: 860px) { .contact { grid-template-columns: minmax(0, 1fr); } }
+.form { display: grid; gap: 16px; padding: clamp(18px, 3vw, 28px); border: 2px solid var(--ink); background: var(--paper-3); }
+.form textarea { min-height: 130px; resize: vertical; }
+.err { font-size: var(--t-xs); color: var(--bad); min-height: 1.1em; font-family: var(--f-mono); }
+.input[aria-invalid="true"], .select[aria-invalid="true"] { border-color: var(--bad); }
+.composed { display: grid; gap: 12px; padding: 16px; border: 2px dashed var(--ink); background: var(--paper); }
+.composed .resv { border: 0; padding: 0; background: none; }
+.info { display: grid; gap: 22px; }
+.info h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.addr { font-style: normal; display: grid; gap: 4px; }
+.addr .mono { font-size: var(--t-sm); user-select: all; }
+.hours { width: 100%; border-collapse: collapse; font: 400 var(--t-sm)/1.4 var(--f-mono); }
+.hours th, .hours td { text-align: left; padding: 8px 6px 8px 0; border-bottom: 1px solid var(--line); font-weight: 400; }
+.hours td { text-align: right; padding-right: 0; }
+.hours tr.today th, .hours tr.today td { font-weight: 500; color: var(--accent); }
+.status { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 5px 10px; border: 1.5px solid currentColor; font: 500 var(--t-xs)/1.2 var(--f-mono); letter-spacing: .04em; }
+.status::before { content: ""; width: 9px; height: 9px; background: currentColor; }
+.status.open { color: var(--ok); }
+.status.closed { color: var(--bad); }
+
+/* lábléc */
+.foot { margin-top: 24px; border-top: 2px solid var(--ink); background: var(--paper-2); }
+.foot-row { display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; padding-block: 28px; }
+.foot .brand-name small { margin-top: 5px; letter-spacing: .06em; text-transform: none; }
+.foot p.small { font-size: var(--t-xs); color: var(--ink-soft); max-width: 54ch; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--t-sm); }
+
+/* hős: három ajtó */
+.doors { list-style: none; margin: clamp(30px, 5vw, 52px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 820px) { .doors { grid-template-columns: minmax(0, 1fr); } }
+.door { display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 18px 18px 16px; border: 2px solid var(--ink); background: var(--paper-3); text-decoration: none; transition: transform .14s ease, box-shadow .14s ease; }
+.door:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--trace); }
+.door-k { font: 500 var(--t-xs)/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.door strong { font: 700 1.4rem/1.1 var(--f-display); }
+.door-d { color: var(--ink-soft); font-size: var(--t-sm); }
+.door-go { margin-top: auto; padding-top: 8px; font: 500 var(--t-sm) var(--f-mono); }
+.door-go::after { content: " →"; }
+
+.sec-head .lede a { color: var(--accent); text-underline-offset: 3px; }
+.chip.wide { padding-inline: 1.1rem; }
+
+/* szerviz: árbecslő */
+.svc-list { display: grid; border-top: 1px solid var(--line); }
+.svc-row { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+.svc-row input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.svc-row .box { width: 22px; height: 22px; border: 2px solid var(--ink); display: grid; place-items: center; background: var(--paper-3); }
+.svc-row input:checked + .box { background: var(--ink); }
+.svc-row input:checked + .box::after { content: "✓"; color: var(--on-ink); font-size: .85rem; line-height: 1; }
+.svc-row input:focus-visible + .box { outline: 3px solid var(--accent); outline-offset: 2px; }
+.svc-name { font-weight: 500; line-height: 1.3; }
+.svc-meta { font: 400 var(--t-xs)/1.4 var(--f-mono); color: var(--ink-soft); text-align: right; white-space: nowrap; }
+@media (max-width: 520px) { .svc-row { grid-template-columns: auto minmax(0, 1fr); } .svc-meta { grid-column: 2; text-align: left; } }
+.out-rows { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding-top: 14px; border-top: 1px dashed color-mix(in srgb, var(--on-ink) 45%, transparent); }
+.out-rows dt { font: 500 var(--t-xs)/1.2 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+.out-rows dd { margin: 6px 0 0; font: 700 1.15rem/1.2 var(--f-display); overflow-wrap: anywhere; }
+.advice { padding: 12px 14px; border: 1.5px solid color-mix(in srgb, var(--on-ink) 65%, transparent); font-size: var(--t-sm); line-height: 1.55; }
+.advice b { display: block; margin-bottom: 6px; font: 500 var(--t-xs)/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; }
+.advice a { color: var(--on-ink); text-underline-offset: 3px; }
+
+/* szerviz: állapotkövető */
+.tk { margin-top: clamp(36px, 6vw, 64px); display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; padding-top: clamp(24px, 4vw, 40px); border-top: 2px solid var(--ink); }
+@media (max-width: 860px) { .tk { grid-template-columns: minmax(0, 1fr); } }
+.tk-side { display: grid; gap: 14px; min-width: 0; }
+.tk-side h3 { font-size: 1.6rem; }
+.tk-side p { color: var(--ink-soft); }
+.tk-in { display: flex; gap: 10px; }
+.tk-in .input { flex: 1 1 auto; min-width: 0; text-transform: uppercase; letter-spacing: .06em; }
+.tk-main { border: 2px solid var(--ink); background: var(--paper-3); padding: clamp(16px, 3vw, 26px); display: grid; gap: 22px; min-width: 0; }
+.tk-top { display: flex; justify-content: space-between; gap: 6px 14px; flex-wrap: wrap; align-items: baseline; }
+.tk-top h4 { margin: 0; font: 700 1.4rem/1.15 var(--f-display); }
+.tk-code { font: 500 var(--t-xs) var(--f-mono); letter-spacing: .1em; color: var(--ink-soft); display: inline-flex; gap: 8px; align-items: center; }
+.tk-example { padding: 1px 6px; border: 1.5px solid var(--ink-soft); letter-spacing: .06em; text-transform: uppercase; font-size: .68rem; }
+.stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.stages li { position: relative; padding: 28px 6px 0 0; font: 500 .7rem/1.3 var(--f-mono); color: var(--ink-soft); overflow-wrap: anywhere; }
+.stages li::before { content: ""; position: absolute; top: 0; left: 0; width: 18px; height: 18px; border: 3px solid var(--ink); background: var(--paper-3); z-index: 1; }
+.stages li::after { content: ""; position: absolute; top: 7px; left: 18px; right: 0; border-top: 3px solid var(--line); }
+.stages li:last-child::after { display: none; }
+.stages li.done { color: var(--ink); }
+.stages li.done::before { background: var(--ink); }
+.stages li.done::after { border-top-color: var(--ink); }
+.stages li.cur { color: var(--ink); font-weight: 500; }
+.stages li.cur::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 28%, transparent); }
+@media (max-width: 640px) {
+  .stages { grid-template-columns: minmax(0, 1fr); }
+  .stages li { padding: 0 0 20px 32px; font-size: .78rem; min-height: 38px; }
+  .stages li::after { top: 20px; bottom: 0; left: 7px; right: auto; border-top: 0; border-left: 3px solid var(--line); }
+  .stages li.done::after { border-left-color: var(--ink); }
+}
+.tk-dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 22px; }
+@media (max-width: 520px) { .tk-dl { grid-template-columns: minmax(0, 1fr); } }
+.tk-dl dt { font: 500 var(--t-xs)/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.tk-dl dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.tk-log { list-style: none; margin: 0; padding: 0; font: 400 var(--t-xs)/1.5 var(--f-mono); border-top: 1px solid var(--line); }
+.tk-log li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.tk-log time { color: var(--ink-soft); }
+@media (max-width: 420px) { .tk-log li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+
+.out-value.sm { font-size: clamp(1.6rem, 3.6vw, 2.2rem); }
+@media (max-width: 560px) { .art { aspect-ratio: 16 / 9; } .art > svg.pic { width: 46%; } }
+
+/* alkatrészek */
+.plist { border-top: 2px solid var(--ink); }
+.prow { display: grid; grid-template-columns: 64px minmax(0, 1fr) 150px 250px; gap: 6px 18px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.prow:hover { background: color-mix(in srgb, var(--paper-3) 70%, transparent); }
+.prow .thumb { width: 64px; height: 52px; background: var(--paper-2); border: 1px solid var(--line); display: grid; place-items: center; }
+.prow .thumb svg { width: 82%; height: auto; stroke: var(--ink); fill: none; stroke-width: 4; stroke-linecap: square; }
+.prow .thumb .f { fill: var(--paper-3); }
+.prow .thumb .t { stroke: var(--trace); }
+.prow .thumb .tf { fill: var(--trace); stroke: none; }
+.prow h3 { font: 700 1.1rem/1.2 var(--f-display); }
+.p-compat { font: 400 var(--t-xs)/1.5 var(--f-mono); color: var(--ink-soft); overflow-wrap: anywhere; }
+.p-state { text-align: right; font: 400 var(--t-xs)/1.5 var(--f-mono); white-space: nowrap; color: var(--ink-soft); }
+.p-state b { font-weight: 500; padding: 1px 6px; border: 1.5px solid var(--ink); margin-right: 8px; color: var(--ink); }
+.p-state .low { color: var(--warn); }
+.p-buy { display: flex; align-items: center; justify-content: flex-end; gap: 14px; min-width: 0; }
+@media (max-width: 760px) {
+  .prow { grid-template-columns: 64px minmax(0, 1fr); }
+  .p-state { grid-column: 2; text-align: left; }
+  .p-buy { grid-column: 1 / -1; justify-content: space-between; }
+}
+.wanted { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; justify-content: space-between; padding: 20px 22px; border: 2px dashed var(--ink); }
+.wanted > div { min-width: 0; }
+.wanted h3 { font-size: 1.35rem; margin-bottom: 6px; }
+.wanted p { color: var(--ink-soft); max-width: 56ch; }
+.wanted-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* szerviz: részletes kérés */
+.req { margin-top: clamp(28px, 4vw, 44px); border: 2px solid var(--ink); background: var(--paper-3); padding: clamp(18px, 3vw, 30px); display: grid; gap: 20px; scroll-margin-top: 96px; }
+.req-head h3 { font-size: 1.6rem; margin-bottom: 6px; }
+.req-head p { color: var(--ink-soft); max-width: 66ch; }
+.req-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 16px; align-items: start; }
+.req-wide { grid-column: 1 / -1; }
+@media (max-width: 760px) { .req-grid { grid-template-columns: minmax(0, 1fr); } }
+.req textarea { min-height: 150px; resize: vertical; line-height: 1.5; }
+.req .input { background: var(--paper); }
+.req .input::placeholder { opacity: .5; }
+.req .input[aria-invalid="true"] { border-color: var(--bad); box-shadow: 0 0 0 3px color-mix(in srgb, var(--bad) 22%, transparent); }
+.req-flag { font: 400 var(--t-xs) var(--f-mono); letter-spacing: 0; text-transform: none; color: var(--ink-soft); }
+.req-meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.req-meta .count { font: 400 var(--t-xs) var(--f-mono); color: var(--ink-soft); white-space: nowrap; }
+.req .err { font-size: var(--t-sm); font-weight: 500; min-height: 1.3em; color: var(--bad); }
+.req-attach { display: grid; gap: 6px; padding: 14px 16px; border: 1.5px dashed var(--ink-soft); background: var(--paper); font-size: var(--t-sm); min-width: 0; }
+.att-k { font: 500 var(--t-xs)/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.att-row { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 12px; }
+.att-row b { font: 500 var(--t-xs)/1.7 var(--f-mono); color: var(--ink-soft); }
+.att-row span { overflow-wrap: anywhere; }
+@media (max-width: 520px) { .att-row { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+.req-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.req-actions .fine { flex: 1 1 260px; min-width: 0; }
+.req .composed { min-width: 0; }
+.sel { user-select: all; }
+</style>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="traces" aria-hidden="true"></canvas>
+
+<div class="page">
+  <header class="site-head">
+    <div class="wrap head-row">
+      <a class="brand" href="#top" aria-label="ReBoot Tech &amp; Trade, oldal teteje">
+        <span class="mark" data-gear></span>
+        <span class="brand-name">ReBoot<small>Tech &amp; Trade</small></span>
+      </a>
+      <nav class="nav" aria-label="Főmenü">
+        <a href="#szerviz">Szerviz</a>
+        <a href="#bolt">Bolt</a>
+        <a href="#alkatreszek">Alkatrészek</a>
+        <a href="#felvasarlas">Felvásárlás</a>
+        <a href="#folyamat">Folyamat</a>
+        <a href="#gyik">GYIK</a>
+        <a href="#kapcsolat">Kapcsolat</a>
+      </nav>
+      <div class="head-actions">
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Világos és sötét téma váltása">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+        </button>
+        <button class="icon-btn" id="cartBtn" type="button" aria-label="Kosár megnyitása" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l3 12h11l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+          <span class="badge-count" id="cartCount" aria-live="polite" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <h1 id="hero-title" class="lockup">
+              <span class="mark" data-gear aria-hidden="true"></span>
+              <span class="wordmark">
+                <span class="wm-re">ReBoot</span>
+                <span class="wm-sub">Tech &amp; Trade</span>
+              </span>
+            </h1>
+            <p class="tagline">Az egyik ember szemete a másik ember kincse.</p>
+            <p class="tagline-en">one man’s trash is another man’s treasure</p>
+            <p class="hero-copy">Használt gépeket veszünk és adunk, a hibás technikát megjavítjuk, és minden számítógéphez kapcsolódó alkatrészt tartunk. Laptop, asztali gép, telefon, konzol, monitor vagy retro gép: bármelyik jöhet, akkor is, ha nem nálunk vetted.</p>
+            <div class="hero-cta">
+              <a class="btn primary" href="#szerviz">Javítást kérek</a>
+              <a class="btn" href="#felvasarlas">Mennyit ér a régi géped?</a>
+            </div>
+          </div>
+
+          <div class="screen" aria-hidden="true">
+            <div class="screen-bar"><i></i><i></i><i></i><span>reboot-diag.exe</span></div>
+            <div class="screen-body">ReBoot DIAG v26.11   szervizállomás 2
+
+<span class="dim">CPU  </span> i5-4300U · 62 °C terhelve    <span class="ok">[ OK  ]</span>
+<span class="dim">RAM  </span> 8192 MB · 4 menet · 0 hiba   <span class="ok">[ OK  ]</span>
+<span class="dim">SSD  </span> SMART: 41 sérült szektor     <span class="warn">[FIGY ]</span>
+<span class="dim">AKKU </span> 38 % kapacitás               <span class="warn">[CSERE]</span>
+<span class="dim">BILL </span> 84 / 84 billentyű            <span class="ok">[ OK  ]</span>
+
+<span class="dim">&gt;</span> javaslat: SSD- és akkumulátor-csere
+<span class="dim">&gt;</span> árajánlat: 31 900 Ft · 1 munkanap<span class="cursor"></span></div>
+          </div>
+        </div>
+
+        <ul class="doors" aria-label="Szolgáltatásaink">
+          <li>
+            <a class="door" href="#szerviz">
+              <span class="door-k">Szerviz</span>
+              <strong>Javítjuk, ami elromlott</strong>
+              <span class="door-d">Bármilyen gép, akkor is, ha nem nálunk vetted. Ingyenes diagnosztika, ha nálunk javíttatod.</span>
+              <span class="door-go">Árbecslés és követés</span>
+            </a>
+          </li>
+          <li>
+            <a class="door" href="#bolt">
+              <span class="door-k">Bolt</span>
+              <strong>Felújított gépek</strong>
+              <span class="door-d"><span id="doorShop">13</span> átnézett és letesztelt laptop, asztali gép, konzol és retro darab.</span>
+              <span class="door-go">Kínálat megnézése</span>
+            </a>
+          </li>
+          <li>
+            <a class="door" href="#alkatreszek">
+              <span class="door-k">Alkatrészek</span>
+              <strong>Ami a géphez kell</strong>
+              <span class="door-d"><span id="doorParts">33</span> tétel: memória, SSD, videókártya, laptopkijelző, tápegység és retro kártyák.</span>
+              <span class="door-go">Alkatrészek böngészése</span>
+            </a>
+          </li>
+        </ul>
+
+        <dl class="datasheet">
+          <div><dt>Garancia</dt><dd>6 hónap<small>gépre, alkatrészre és javításra</small></dd></div>
+          <div><dt>Diagnosztika</dt><dd>0 Ft<small>ha nálunk javíttatod</small></dd></div>
+          <div><dt>Átfutás</dt><dd>1–3 nap<small>a legtöbb javításnál</small></dd></div>
+          <div><dt>Felvásárlás</dt><dd>+20%<small>ha bolti utalványt választasz</small></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="sec" id="szerviz" aria-labelledby="szerv-h">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow">Szerviz</p>
+          <h2 id="szerv-h">Javítjuk, ami elromlott</h2>
+          <p class="lede">Hozd a saját gépedet, nem kell nálunk vásároltnak lennie. Megnézzük, megmondjuk az árat, és csak akkor nyúlunk hozzá, ha igent mondasz. Jelöld be, mi a baj, és kapsz egy becslést.</p>
+        </header>
+
+        <div class="calc">
+          <form class="calc-in" id="svcForm">
+            <div class="field">
+              <span class="group-label" id="svcTypeLabel">Mit hozol?</span>
+              <div class="chips" id="svcTypes" role="group" aria-labelledby="svcTypeLabel"></div>
+            </div>
+            <div class="range-row">
+              <div class="top"><label class="group-label" for="svcAge">Hány éves?</label><output id="svcAgeOut" for="svcAge">6 év</output></div>
+              <input id="svcAge" type="range" min="0" max="40" step="1" value="6">
+              <p class="hint" id="svcAgeHint"></p>
+            </div>
+            <div class="field">
+              <span class="group-label" id="svcListLabel">Mi a baj? Jelöld be, ami igaz.</span>
+              <div class="svc-list" id="svcList" role="group" aria-labelledby="svcListLabel"></div>
+            </div>
+          </form>
+
+          <div class="calc-out">
+            <div>
+              <div class="out-label">Becsült javítási költség</div>
+              <div class="out-value sm" id="svcCost">–</div>
+            </div>
+            <dl class="out-rows">
+              <div><dt>Átfutás</dt><dd id="svcDays">–</dd></div>
+              <div><dt>Diagnosztika</dt><dd id="svcDiag">–</dd></div>
+            </dl>
+            <div class="advice" id="svcAdvice"></div>
+            <p class="fine" id="svcNote"></p>
+            <button class="btn primary" type="button" id="svcAsk">Javítást kérek</button>
+          </div>
+        </div>
+
+        <form class="req" id="svcReq" novalidate>
+          <div class="req-head">
+            <h3>Írd le részletesebben</h3>
+            <p>Minél pontosabban leírod, mi a baj, annál pontosabb árat tudunk mondani. A fent kijelölt hibákat és a becslést magunktól hozzáfűzzük a levélhez.</p>
+          </div>
+          <div class="req-grid">
+            <div class="field req-wide">
+              <label for="svcDesc">A hiba részletei <span class="req-flag">(kötelező)</span></label>
+              <textarea class="input" id="svcDesc" maxlength="1500" required aria-required="true" aria-describedby="svcDescErr" placeholder="Írj legalább egy pontot: mi történik a géppel, mióta, és mit próbáltál már? Például: bekapcsoláskor háromszor sípol, és nem ad képet."></textarea>
+              <div class="req-meta"><span class="err" id="svcDescErr" role="alert"></span><span class="count" id="svcDescCount">0 / 1500</span></div>
+            </div>
+            <div class="field">
+              <label for="svcName">Neved <span class="req-flag">(kötelező)</span></label>
+              <input class="input" id="svcName" type="text" autocomplete="name" required aria-required="true" aria-describedby="svcNameErr">
+              <span class="err" id="svcNameErr" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="svcMail">E-mail <span class="req-flag">(kötelező)</span></label>
+              <input class="input" id="svcMail" type="email" autocomplete="email" required aria-required="true" aria-describedby="svcMailErr">
+              <span class="err" id="svcMailErr" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="svcPhone">Telefon <span class="req-flag">(nem kötelező)</span></label>
+              <input class="input" id="svcPhone" type="tel" autocomplete="tel">
+              <span class="err"></span>
+            </div>
+          </div>
+          <div class="req-attach" id="svcAttach"></div>
+          <div class="req-actions">
+            <button class="btn primary" type="submit" id="svcSend">Küldés</button>
+            <span class="fine">Küldéskor megnyitjuk a levelezőprogramodat a kitöltött levéllel, a címzett a ReBoot szerviz.</span>
+          </div>
+          <div class="composed" id="svcSent" hidden>
+            <strong>A levél összeállítva.</strong>
+            <p class="fine">Megpróbáltuk megnyitni a levelezőprogramodat. Az oldal nem látja, hogy a levél elment-e, ezért nézd meg ott, és nyomd meg a küldést. Ha nem nyílt meg semmi, másold ki a levelet, és küldd el kézzel erre a címre: <span class="mono sel">joannistzelepakis@gmail.com</span></p>
+            <p class="fine" id="svcTrunc" hidden>A levél hosszú, ezért a levelezőbe a rövidített változat került. A teljes szöveget másold ki innen.</p>
+            <div class="resv" id="svcSentBody"></div>
+            <div class="req-actions">
+              <a class="btn small" id="svcOpenMail" href="#svcReq" target="_blank" rel="noopener">Megnyitás a levelezőben</a>
+              <button class="btn small" type="button" id="svcCopyMail">Levél másolása</button>
+              <button class="btn small" type="button" id="svcCopyAddr">Cím másolása</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="tk">
+          <div class="tk-side">
+            <h3>Követd a javításod</h3>
+            <p>Az átvételi lapon szereplő kóddal bármikor megnézheted, hol tart a géped.</p>
+            <form class="tk-form" id="tkForm">
+              <div class="field">
+                <label for="tkCode">Javítási kód</label>
+                <div class="tk-in">
+                  <input class="input mono" id="tkCode" type="text" value="RB-2041" autocomplete="off" spellcheck="false" aria-describedby="tkErr">
+                  <button class="btn primary" type="submit">Keresés</button>
+                </div>
+                <span class="err" id="tkErr"></span>
+              </div>
+            </form>
+            <p class="fine">Példakódok a bemutatóhoz:</p>
+            <div class="chips" id="tkChips"></div>
+          </div>
+          <div class="tk-main" id="tkOut" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="bolt" aria-labelledby="bolt-h">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow"><span id="countLabel">13 felújított gép raktáron</span></p>
+          <h2 id="bolt-h">Bolt</h2>
+          <p class="lede">Felújított gépek, amelyeken átment a diagnosztika. Minden darab saját példány, ami a polcon van. Ha elfogyott, nem jön újra.</p>
+        </header>
+
+        <div class="toolbar">
+          <div class="toolbar-row">
+            <div class="field search">
+              <label for="q">Keresés</label>
+              <input class="input" id="q" type="search" placeholder="pl. ThinkPad, Amiga, SSD" autocomplete="off">
+            </div>
+            <div class="field sortbox">
+              <label for="sort">Rendezés</label>
+              <select class="select" id="sort">
+                <option value="def">Ajánlott sorrend</option>
+                <option value="pa">Ár: növekvő</option>
+                <option value="pd">Ár: csökkenő</option>
+                <option value="yo">Kor: legrégebbi elöl</option>
+                <option value="yn">Kor: legújabb elöl</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="group-label" id="catLabel" style="margin-bottom:8px">Kategória</div>
+            <div class="chips" id="chips" role="group" aria-labelledby="catLabel"></div>
+          </div>
+          <p class="legend"><span><b>A</b> alig látszik rajta használat</span><span><b>B</b> apró karcok</span><span><b>C</b> kopott, de hibátlan</span></p>
+        </div>
+
+        <div class="grid" id="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="alkatreszek" aria-labelledby="alk-h">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow"><span id="partCount">33 alkatrész raktáron</span></p>
+          <h2 id="alk-h">Alkatrészek</h2>
+          <p class="lede">Tesztelt alkatrészek a mai gépekhez és a negyven évvel ezelőttiekhez. A szervizben ugyanezeket építjük be, ugyanazzal a garanciával.</p>
+        </header>
+
+        <div class="toolbar">
+          <div class="toolbar-row">
+            <div class="field search">
+              <label for="partQ">Keresés</label>
+              <input class="input" id="partQ" type="search" placeholder="pl. DDR3, LGA1150, AGP, 65 W" autocomplete="off">
+            </div>
+            <div class="field sortbox">
+              <label for="partSort">Rendezés</label>
+              <select class="select" id="partSort">
+                <option value="def">Típus szerint</option>
+                <option value="pa">Ár: növekvő</option>
+                <option value="pd">Ár: csökkenő</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="group-label" id="partCatLabel" style="margin-bottom:8px">Alkatrész típusa</div>
+            <div class="chips" id="partChips" role="group" aria-labelledby="partCatLabel"></div>
+          </div>
+          <p class="legend"><span><b>A</b> új vagy alig használt</span><span><b>B</b> használt, tesztelt</span><span><b>C</b> kopott, de működik</span></p>
+        </div>
+
+        <div class="plist" id="partList" aria-live="polite"></div>
+
+        <div class="wanted">
+          <div>
+            <h3>Nem találod, amit keresel?</h3>
+            <p>Írd meg a gép típusát vagy az alkatrész jelölését, és megkeressük. Hibás gépet alkatrésznek is felvásárolunk.</p>
+          </div>
+          <div class="wanted-cta">
+            <button class="btn primary" type="button" id="partAsk">Alkatrészt keresek</button>
+            <a class="btn" href="#felvasarlas">Alkatrésznek eladom</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="felvasarlas" aria-labelledby="besz-h">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow">Felvásárlás és beszámítás</p>
+          <h2 id="besz-h">Mennyit ér a régi géped?</h2>
+          <p class="lede">Add meg a típust, a kort és az állapotot, a becslés azonnal frissül. A hibás gépet is megvesszük, azt alkatrésznek. Ha inkább megjavíttatnád, nézd meg a <a href="#szerviz">szerviz árait</a>.</p>
+        </header>
+
+        <div class="calc">
+          <form class="calc-in" id="calcForm">
+            <div class="field">
+              <span class="group-label" id="typeLabel">Mit hozol?</span>
+              <div class="opts" role="radiogroup" aria-labelledby="typeLabel" id="typeOpts"></div>
+            </div>
+            <div class="range-row">
+              <div class="top"><label class="group-label" for="age">Hány éves?</label><output id="ageOut" for="age">6 év</output></div>
+              <input id="age" type="range" min="0" max="40" step="1" value="6">
+              <p class="hint" id="ageHint"></p>
+            </div>
+            <div class="field">
+              <span class="group-label" id="condLabel">Állapot</span>
+              <div class="opts" role="radiogroup" aria-labelledby="condLabel" id="condOpts"></div>
+            </div>
+            <div class="field">
+              <span class="group-label" id="accLabel">Mellé adod</span>
+              <div class="opts" id="accOpts" role="group" aria-labelledby="accLabel"></div>
+            </div>
+          </form>
+
+          <div class="calc-out">
+            <div>
+              <div class="out-label">Becsült ár készpénzben</div>
+              <div class="out-value" id="outCash">–</div>
+            </div>
+            <div class="meter" aria-hidden="true">
+              <div class="track"><div class="band" id="band"></div></div>
+              <div class="ticks"><span>0</span><span>30 e</span><span>60 e</span><span>90 e</span><span>120 e Ft</span></div>
+            </div>
+            <div class="out-voucher">
+              <span class="out-label">Bolti utalványban</span>
+              <strong id="outVoucher">–</strong>
+            </div>
+            <p class="fine" id="outNote"></p>
+            <button class="btn primary" type="button" id="askBtn">Ajánlatot kérek</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="folyamat" aria-labelledby="fol-h">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow">Három lépés</p>
+          <h2 id="fol-h">Hogyan működik?</h2>
+          <p class="lede">Ugyanígy megy, ha javíttatnál, eladnál vagy alkatrészt keresel.</p>
+        </header>
+        <ol class="steps">
+          <li><span class="step-pad" aria-hidden="true">1</span><h3>Hozd el</h3><p>Behozod a gépet, vagy előre megírod, mi a baj. Csomagban is fogadjuk. Átvételi lapot és javítási kódot kapsz.</p></li>
+          <li><span class="step-pad" aria-hidden="true">2</span><h3>Megnézzük</h3><p>Lefuttatjuk a diagnosztikát, és megmondjuk, mi a hiba, mennyibe kerül a javítás, és mennyit ér a gép.</p></li>
+          <li><span class="step-pad" aria-hidden="true">3</span><h3>Te döntesz</h3><p>Megjavítjuk, beszámítjuk, vagy alkatrésznek megvesszük. Csak az indul el, amire igent mondtál.</p></li>
+        </ol>
+
+        <div class="post">
+          <div>
+            <h3>A 12 pontos ReBoot-diagnosztika</h3>
+            <p>Minden gép ezen megy végig, mielőtt a polcra kerül, és minden javításnál ezt kapod írásban. Amelyik darab megbukik, alkatrésznek megy.</p>
+          </div>
+          <ul class="checks">
+            <li>Bekapcsolás, hideg indítás</li>
+            <li>Memória, 4 menet</li>
+            <li>Tárhely SMART-állapot</li>
+            <li>Akkumulátor kapacitás</li>
+            <li>Kijelző, holt pixelek</li>
+            <li>Billentyűzet, minden gomb</li>
+            <li>Portok és csatlakozók</li>
+            <li>Hűtés, 30 perces terhelés</li>
+            <li>Hálózat, Wi-Fi és LAN</li>
+            <li>Hang és kamera</li>
+            <li>Tisztítás, szárítás, új hőpaszta</li>
+            <li>Tiszta, friss rendszer</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="gyik" aria-labelledby="gyik-h">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow">Gyakori kérdések</p>
+          <h2 id="gyik-h">GYIK</h2>
+        </header>
+        <div class="faq" id="faq"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="kapcsolat" aria-labelledby="kap-h">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow">Kapcsolat</p>
+          <h2 id="kap-h">Gyere be, vagy írj</h2>
+          <p class="lede">Kérj javítást, foglalj egy gépet, keress alkatrészt, vagy kérdezz bármit. A javításra váró gépet személyesen és csomagban is fogadjuk.</p>
+        </header>
+        <div class="contact">
+          <div>
+            <form class="form" id="contactForm" novalidate>
+              <div class="field">
+                <label for="cName">Neved</label>
+                <input class="input" id="cName" name="name" type="text" autocomplete="name" required>
+                <span class="err" id="eName"></span>
+              </div>
+              <div class="field">
+                <label for="cMail">E-mail</label>
+                <input class="input" id="cMail" name="email" type="email" autocomplete="email" required>
+                <span class="err" id="eMail"></span>
+              </div>
+              <div class="field">
+                <label for="cTopic">Miben segíthetünk?</label>
+                <select class="select" id="cTopic" name="topic">
+                  <option>Javítási kérés</option>
+                  <option>Foglalás a kosárból</option>
+                  <option>Beszámítási ajánlat</option>
+                  <option>Alkatrész keresése</option>
+                  <option>Retro gép keresése</option>
+                  <option>Egyéb kérdés</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="cMsg">Üzenet</label>
+                <textarea class="input" id="cMsg" name="message" required></textarea>
+                <span class="err" id="eMsg"></span>
+              </div>
+              <button class="btn primary" type="submit">Üzenet összeállítása</button>
+            </form>
+            <div class="composed" id="composed" hidden>
+              <strong>Az üzeneted kész.</strong>
+              <p class="fine">Ez az oldal nem küld e-mailt. Másold ki az üzenetet, és küldd el erre a címre: <span class="mono" style="user-select:all">hello@reboot-tech.example</span></p>
+              <div class="resv" id="composedText"></div>
+              <button class="btn small" type="button" id="copyMsg">Üzenet másolása</button>
+            </div>
+          </div>
+
+          <div class="info">
+            <div>
+              <h3>Nyitva tartás</h3>
+              <div class="status" id="status">Ellenőrzés…</div>
+              <table class="hours" id="hours"><caption class="sr">Heti nyitvatartás</caption><tbody></tbody></table>
+            </div>
+            <div>
+              <h3>Itt találsz</h3>
+              <address class="addr">
+                <span>1111 Budapest, Alkatrész köz 8.</span>
+                <span class="mono">+36 30 000 0000</span>
+                <span class="mono">hello@reboot-tech.example</span>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-row">
+      <div class="brand" style="margin:0">
+        <span class="mark" data-gear aria-hidden="true"></span>
+        <span class="brand-name">ReBoot<small>one man’s trash is another man’s treasure</small></span>
+      </div>
+      <p class="small">A régi technika nem hulladék. Megjavítjuk, újra eladjuk, vagy alkatrésznek használjuk fel. Bemutató oldal: a kosár és az űrlapok nem küldenek megrendelést.</p>
+      <nav class="foot-links" aria-label="Lábléc">
+        <a href="#szerviz">Szerviz</a><a href="#bolt">Bolt</a><a href="#alkatreszek">Alkatrészek</a><a href="#felvasarlas">Felvásárlás</a><a href="#folyamat">Folyamat</a><a href="#gyik">GYIK</a><a href="#kapcsolat">Kapcsolat</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+
+<div class="backdrop" id="backdrop" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" inert>
+  <div class="drawer-head">
+    <h2 id="drawerTitle">Kosár</h2>
+    <button class="icon-btn" id="closeCart" type="button" aria-label="Kosár bezárása">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+<script>
+/* ---- tiszta függvények: kalkulátor, nyitvatartás, kosár ---- */
+const CALC_TYPES = [
+  { id: 'laptop', label: 'Laptop', base: 90000 },
+  { id: 'desktop', label: 'Asztali gép', base: 60000 },
+  { id: 'phone', label: 'Telefon', base: 70000 },
+  { id: 'console', label: 'Konzol', base: 45000 },
+  { id: 'monitor', label: 'Monitor', base: 25000 },
+  { id: 'retro', label: 'Retro gép (25+ éves)', base: 30000 }
+];
+const CALC_CONDS = [
+  { id: 'good', label: 'Hibátlanul működik', mult: 1 },
+  { id: 'worn', label: 'Működik, de kopott', mult: 0.75 },
+  { id: 'broken', label: 'Hibás', mult: 0.3 }
+];
+const CALC_ACCS = [
+  { id: 'charger', label: 'Töltő vagy tápegység', bonus: 0.05 },
+  { id: 'box', label: 'Eredeti doboz', bonus: 0.05 },
+  { id: 'invoice', label: 'Számla', bonus: 0.03 }
+];
+const RETRO_MIN_AGE = 25;
+
+function ageFactor(typeId, age) {
+  if (typeId === 'retro') return 0.35 + 0.03 * age;
+  return Math.max(0.06, Math.pow(0.5, age / 4));
+}
+
+function round500(v) { return Math.round(v / 500) * 500; }
+
+function estimate(typeId, age, condId, accIds) {
+  const t = CALC_TYPES.find(function (x) { return x.id === typeId; }) || CALC_TYPES[0];
+  const c = CALC_CONDS.find(function (x) { return x.id === condId; }) || CALC_CONDS[0];
+  const bonus = (accIds || []).reduce(function (sum, id) {
+    const a = CALC_ACCS.find(function (x) { return x.id === id; });
+    return sum + (a ? a.bonus : 0);
+  }, 0);
+  const raw = t.base * ageFactor(t.id, age) * c.mult * (1 + bonus);
+  const mid = Math.max(500, round500(raw));
+  const low = Math.max(500, round500(raw * 0.88));
+  const high = Math.max(low, round500(raw * 1.12));
+  return { raw: raw, low: low, mid: mid, high: high, voucher: round500(mid * 1.2) };
+}
+
+const HOURS = [[10, 18], [10, 18], [10, 18], [10, 18], [10, 18], [9, 13], null];
+const DAYS = ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat', 'Vasárnap'];
+
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+function shopStatus(dayIdx, minutes) {
+  const today = HOURS[dayIdx];
+  if (today && minutes >= today[0] * 60 && minutes < today[1] * 60) {
+    return { open: true, text: 'Most nyitva · ' + pad2(today[1]) + ':00-ig' };
+  }
+  if (today && minutes < today[0] * 60) {
+    return { open: false, text: 'Zárva · ma ' + pad2(today[0]) + ':00-kor nyit' };
+  }
+  for (let i = 1; i <= 7; i++) {
+    const d = (dayIdx + i) % 7;
+    const h = HOURS[d];
+    if (h) {
+      const when = i === 1 ? 'holnap' : DAYS[d].toLowerCase();
+      return { open: false, text: 'Zárva · ' + when + ' ' + pad2(h[0]) + ':00-kor nyit' };
+    }
+  }
+  return { open: false, text: 'Zárva' };
+}
+
+function budapestNow() {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Budapest', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false
+  }).formatToParts(new Date());
+  const get = function (t) { const p = parts.find(function (x) { return x.type === t; }); return p ? p.value : ''; };
+  const map = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 };
+  let h = parseInt(get('hour'), 10);
+  if (h === 24) h = 0;
+  const day = map[get('weekday')];
+  return { day: day === undefined ? 0 : day, minutes: h * 60 + (parseInt(get('minute'), 10) || 0) };
+}
+
+function groupNum(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+function fmtFt(n) { return groupNum(n) + '\u00a0Ft'; }
+
+function cartTotals(cart, products) {
+  let count = 0, total = 0;
+  Object.keys(cart).forEach(function (id) {
+    const p = products.find(function (x) { return x.id === id; });
+    if (p && cart[id] > 0) { count += cart[id]; total += cart[id] * p.price; }
+  });
+  return { count: count, total: total };
+}
+
+const DIAG_FEE = 4900;
+
+/* javítási árbecslő: list = a géptípus szolgáltatásai, valueMid = a gép felvásárlási értéke */
+function repairQuote(list, ids, valueMid) {
+  let low = 0, high = 0, days = 0, count = 0;
+  (ids || []).forEach(function (id) {
+    const s = list.find(function (x) { return x.id === id; });
+    if (s) { low += s.from; high += s.to; days = Math.max(days, s.days); count++; }
+  });
+  const k = count >= 2 ? 0.9 : 1;
+  low = Math.round(low * k / 100) * 100;
+  high = Math.round(high * k / 100) * 100;
+  const ratio = count && valueMid > 0 ? (low + high) / 2 / valueMid : 0;
+  const level = !count ? 'none' : ratio < 0.5 ? 'good' : ratio <= 0.9 ? 'think' : 'swap';
+  return { count: count, low: low, high: high, days: days, discount: count >= 2, ratio: ratio, level: level, diag: count ? 0 : DIAG_FEE };
+}
+
+function ticketLookup(code, tickets) {
+  const norm = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!norm) return null;
+  const key = Object.keys(tickets).find(function (k) { return k.replace(/[^A-Z0-9]/g, '') === norm; });
+  return key ? Object.assign({ id: key }, tickets[key]) : null;
+}
+
+const REPAIR_MAIL_TO = 'joannistzelepakis@gmail.com';
+const MIN_DETAIL = 5;
+const MAILTO_LIMIT = 6000;
+
+function validateRepair(f) {
+  const err = {};
+  if (String(f.desc || '').trim().length < MIN_DETAIL) err.desc = 'Írd le legalább egy pontban, mi a baj, mielőtt elküldöd.';
+  if (String(f.name || '').trim().length < 2) err.name = 'Add meg a neved.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(f.email || '').trim())) err.email = 'Adj meg egy érvényes e-mail-címet.';
+  return err;
+}
+
+function buildRepairMail(f) {
+  const issues = f.issues || [];
+  const lines = [
+    'Javítási kérés a ReBoot Tech & Trade oldalról',
+    '',
+    'Név: ' + String(f.name).trim(),
+    'E-mail: ' + String(f.email).trim(),
+    'Telefon: ' + (String(f.phone || '').trim() || 'nincs megadva'),
+    '',
+    'Gép: ' + f.device,
+    'Kijelölt hibák: ' + (issues.length ? issues.join('; ') : 'nincs kijelölve'),
+  ];
+  if (f.estimate) lines.push('Becsült költség: ' + f.estimate);
+  lines.push('', 'A hiba részletei:', String(f.desc).trim());
+  const body = lines.join('\n').replace(/ /g, ' ');
+  const subject = 'Javítási kérés: ' + f.device;
+  const make = function (b) {
+    return 'mailto:' + REPAIR_MAIL_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(b.replace(/\n/g, '\r\n'));
+  };
+  let cut = body, truncated = false, url = make(cut);
+  while (url.length > MAILTO_LIMIT && cut.length > 200) {
+    cut = cut.slice(0, Math.floor(cut.length * 0.9));
+    truncated = true;
+    url = make(cut + '\n[…a levél itt rövidítve lett, a teljes szöveg az oldalon másolható]');
+  }
+  return { subject: subject, body: body, mailto: url, truncated: truncated, to: REPAIR_MAIL_TO };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { estimate: estimate, shopStatus: shopStatus, cartTotals: cartTotals, ageFactor: ageFactor, fmtFt: fmtFt, groupNum: groupNum, repairQuote: repairQuote, ticketLookup: ticketLookup, validateRepair: validateRepair, buildRepairMail: buildRepairMail };
+}
+/* ---- adatok: bolt, alkatrészek, szerviz, követés, GYIK ---- */
+const CATS = [
+  { id: 'all', label: 'Minden' },
+  { id: 'pc', label: 'Számítógépek' },
+  { id: 'retro', label: 'Retro és játék' },
+  { id: 'periph', label: 'Perifériák' }
+];
+
+const PRODUCTS = [
+  { id: 'thinkpad-t440', name: 'ThinkPad T440', cat: 'pc', year: 2014, spec: '14" · i5-4300U · 8 GB · 256 GB SSD', grade: 'B', price: 59900, stock: 3, icon: 'laptop' },
+  { id: 'latitude-e6430', name: 'Dell Latitude E6430', cat: 'pc', year: 2012, spec: '14" · i5-3320M · 8 GB · 240 GB SSD', grade: 'C', price: 42900, stock: 2, icon: 'laptop' },
+  { id: 'optiplex-7010', name: 'Dell OptiPlex 7010 SFF', cat: 'pc', year: 2013, spec: 'i5-3470 · 8 GB · 240 GB SSD', grade: 'A', price: 44900, stock: 5, icon: 'tower' },
+  { id: 'elitedesk-mini', name: 'HP EliteDesk 800 G1 Mini', cat: 'pc', year: 2014, spec: 'i5-4590T · 8 GB · 128 GB SSD · 1,2 literes', grade: 'A', price: 49900, stock: 3, icon: 'tower' },
+  { id: 'pentium3', name: 'Pentium III torony', cat: 'retro', year: 2000, spec: 'PIII 800 MHz · 256 MB · Windows 98 SE', grade: 'C', price: 49900, stock: 1, icon: 'tower' },
+  { id: 'amiga500', name: 'Amiga 500', cat: 'retro', year: 1987, spec: '1 MB RAM · tápegység · egér · felújított', grade: 'B', price: 89900, stock: 1, icon: 'c64' },
+  { id: 'c64c', name: 'Commodore 64C', cat: 'retro', year: 1986, spec: 'tápegységgel és TV-kábellel', grade: 'B', price: 74900, stock: 1, icon: 'c64' },
+  { id: 'gbc', name: 'Game Boy Color', cat: 'retro', year: 1998, spec: 'kijelző és gombok tesztelve', grade: 'B', price: 32900, stock: 2, icon: 'gameboy' },
+  { id: 'megadrive', name: 'Mega Drive + 2 kontroller', cat: 'retro', year: 1990, spec: 'tápegység, AV-kábel, 2 pad', grade: 'B', price: 39900, stock: 2, icon: 'console' },
+  { id: 'ps2', name: 'PlayStation 2 Slim', cat: 'retro', year: 2004, spec: 'tápegység, AV-kábel, 1 kontroller', grade: 'B', price: 29900, stock: 3, icon: 'console' },
+  { id: 'nokia3310', name: 'Nokia 3310', cat: 'retro', year: 2000, spec: 'új akkuval és töltővel', grade: 'B', price: 14900, stock: 4, icon: 'phone' },
+  { id: 'crt17', name: '17" CRT monitor', cat: 'periph', year: 2003, spec: 'VGA · 1280×1024 · 85 Hz', grade: 'B', price: 19900, stock: 2, icon: 'crt' },
+  { id: 'modelm', name: 'Model M billentyűzet', cat: 'periph', year: 1991, spec: 'buckling spring · PS/2 · USB átalakítóval', grade: 'A', price: 24900, stock: 2, icon: 'keyboard' }
+];
+
+const PART_CATS = [
+  { id: 'all', label: 'Minden' },
+  { id: 'cpu', label: 'Processzor' },
+  { id: 'mobo', label: 'Alaplap' },
+  { id: 'ram', label: 'Memória' },
+  { id: 'gpu', label: 'Videókártya' },
+  { id: 'store', label: 'Tárhely' },
+  { id: 'power', label: 'Tápegység és töltő' },
+  { id: 'cool', label: 'Hűtés' },
+  { id: 'lap', label: 'Laptop-alkatrész' },
+  { id: 'cable', label: 'Kábel és csatlakozó' },
+  { id: 'retro', label: 'Retro alkatrész' }
+];
+
+const PARTS = [
+  { id: 'i5-4590', name: 'Intel Core i5-4590', cat: 'cpu', compat: 'LGA1150 · 4 mag · 3,3 GHz', grade: 'B', price: 12900, stock: 4, icon: 'cpu' },
+  { id: 'r5-2600', name: 'AMD Ryzen 5 2600', cat: 'cpu', compat: 'AM4 · 6 mag · hűtővel', grade: 'B', price: 19900, stock: 3, icon: 'cpu' },
+  { id: 'q9550', name: 'Core 2 Quad Q9550', cat: 'cpu', compat: 'LGA775 · retro és régi irodai gépekhez', grade: 'B', price: 5900, stock: 2, icon: 'cpu' },
+  { id: 'b85m', name: 'mATX alaplap, B85', cat: 'mobo', compat: 'LGA1150 · 2× DDR3 · SATA3', grade: 'B', price: 14900, stock: 3, icon: 'board' },
+  { id: 'b350m', name: 'mATX alaplap, B350', cat: 'mobo', compat: 'AM4 · 2× DDR4 · M.2', grade: 'B', price: 17900, stock: 2, icon: 'board' },
+  { id: 'p4-agp', name: 'Socket 478 alaplap', cat: 'mobo', compat: 'AGP · IDE · 2× DDR · retro gépekhez', grade: 'C', price: 8900, stock: 1, icon: 'board' },
+  { id: 'ddr3', name: '8 GB DDR3 SO-DIMM', cat: 'ram', compat: 'laptopba · 1600 MHz · 4 menet tesztelve', grade: 'A', price: 6900, stock: 9, icon: 'ram' },
+  { id: 'ddr4-16', name: '2×8 GB DDR4 DIMM', cat: 'ram', compat: 'asztali · 3200 MHz · tesztelve', grade: 'A', price: 17900, stock: 5, icon: 'ram' },
+  { id: 'sdram', name: '2×128 MB SDRAM PC133', cat: 'ram', compat: 'retro asztali gépekhez', grade: 'B', price: 3900, stock: 6, icon: 'ram' },
+  { id: 'gtx960', name: 'GeForce GTX 960 2 GB', cat: 'gpu', compat: 'PCIe 3.0 · 30 perces terhelésteszt', grade: 'B', price: 21900, stock: 2, icon: 'gpu' },
+  { id: 'rx570', name: 'Radeon RX 570 4 GB', cat: 'gpu', compat: 'PCIe 3.0 · 8 tűs táp', grade: 'B', price: 24900, stock: 2, icon: 'gpu' },
+  { id: 'agp6600', name: 'GeForce 6600 AGP', cat: 'gpu', compat: 'AGP 8× · Windows 98 és XP alá', grade: 'C', price: 9900, stock: 1, icon: 'gpu' },
+  { id: 'ssd240', name: '240 GB SATA SSD', cat: 'store', compat: '2,5" · SMART tiszta', grade: 'A', price: 7900, stock: 8, icon: 'ssd' },
+  { id: 'nvme500', name: '500 GB NVMe SSD', cat: 'store', compat: 'M.2 2280 · PCIe · SMART tiszta', grade: 'A', price: 11900, stock: 4, icon: 'ssd' },
+  { id: 'hdd500', name: '500 GB 2,5" HDD', cat: 'store', compat: 'SATA · 7 mm · SMART tiszta', grade: 'B', price: 5900, stock: 6, icon: 'hdd' },
+  { id: 'hdd1t', name: '1 TB 3,5" HDD', cat: 'store', compat: 'SATA · asztali · SMART tiszta', grade: 'B', price: 6900, stock: 5, icon: 'hdd' },
+  { id: 'psu500', name: '500 W ATX tápegység', cat: 'power', compat: '80+ Bronze · terhelésteszten átment', grade: 'B', price: 11900, stock: 3, icon: 'psu' },
+  { id: 'chg65', name: '65 W laptoptöltő', cat: 'power', compat: 'Lenovo laptopokhoz · szögletes csatlakozó', grade: 'A', price: 6900, stock: 6, icon: 'charger' },
+  { id: 'chg90', name: '90 W laptoptöltő', cat: 'power', compat: 'Dell laptopokhoz · kerek csatlakozó', grade: 'A', price: 7900, stock: 4, icon: 'charger' },
+  { id: 'cooler', name: 'Processzorhűtő', cat: 'cool', compat: 'LGA115x és LGA1200 · rézmagos', grade: 'B', price: 2900, stock: 6, icon: 'fan' },
+  { id: 'fan120', name: '120 mm házventilátor', cat: 'cool', compat: '3 tűs · csendes', grade: 'A', price: 1900, stock: 10, icon: 'fan' },
+  { id: 'paste', name: 'Hőpaszta, 4 g', cat: 'cool', compat: 'processzorhoz és videókártyához', grade: 'A', price: 1500, stock: 20, icon: 'fan' },
+  { id: 'lcd14', name: '14" HD laptopkijelző', cat: 'lap', compat: '1366×768 · 40 tűs · ThinkPad T-sorozat', grade: 'A', price: 12900, stock: 3, icon: 'lcd' },
+  { id: 'bat-t440', name: 'Akkumulátor ThinkPad T440 és T450', cat: 'lap', compat: 'új cellák · 6 hónap garancia', grade: 'A', price: 9900, stock: 4, icon: 'battery' },
+  { id: 'kb-t', name: 'Laptop-billentyűzet, magyar kiosztás', cat: 'lap', compat: 'ThinkPad T-sorozat', grade: 'A', price: 8900, stock: 2, icon: 'keyboard' },
+  { id: 'serial', name: 'Soros–USB átalakító', cat: 'cable', compat: 'DB9 · 1,8 m · Windows és Linux', grade: 'A', price: 3400, stock: 7, icon: 'cable' },
+  { id: 'sata2', name: 'SATA-kábel, 2 db', cat: 'cable', compat: 'zárral · 50 cm', grade: 'A', price: 900, stock: 20, icon: 'cable' },
+  { id: 'vga18', name: 'VGA-kábel, 1,8 m', cat: 'cable', compat: 'árnyékolt · ferritgyűrűs', grade: 'A', price: 1500, stock: 8, icon: 'cable' },
+  { id: 'isa-snd', name: 'ISA hangkártya, 16 bites', cat: 'retro', compat: 'DOS és Windows 98 alatt', grade: 'C', price: 7900, stock: 2, icon: 'card' },
+  { id: 'ide80', name: 'IDE szalagkábel, 80 eres', cat: 'retro', compat: '3 csatlakozó · 45 cm', grade: 'A', price: 1200, stock: 9, icon: 'ribbon' },
+  { id: 'fdd', name: '3,5" floppy meghajtó', cat: 'retro', compat: '1,44 MB · tesztelt', grade: 'B', price: 5900, stock: 5, icon: 'floppy' },
+  { id: 'floppy10', name: '3,5" floppy, 10 db', cat: 'retro', compat: 'formázott · olvasási teszten átment', grade: 'A', price: 3900, stock: 12, icon: 'floppy' },
+  { id: 'c64psu', name: 'Commodore 64 tápegység', cat: 'retro', compat: 'felújított · új kondenzátorok', grade: 'B', price: 14900, stock: 2, icon: 'psu' }
+];
+
+/* szerviz: a típusazonosítók megegyeznek a beszámítás-kalkulátoréval */
+const SERVICES = {
+  laptop: [
+    { id: 'battery', label: 'Akkumulátor-csere', from: 12900, to: 24900, days: 1 },
+    { id: 'cooling', label: 'Tisztítás és új hőpaszta (túlmelegedés)', from: 6900, to: 9900, days: 1 },
+    { id: 'ssd', label: 'SSD-csere és rendszer-átköltöztetés', from: 14900, to: 29900, days: 1 },
+    { id: 'screen', label: 'Kijelzőcsere', from: 18900, to: 39900, days: 2 },
+    { id: 'keyboard', label: 'Billentyűzet-csere', from: 9900, to: 19900, days: 2 },
+    { id: 'board', label: 'Alaplap-szintű hiba (nem tölt, nem indul)', from: 19900, to: 49900, days: 5 },
+    { id: 'liquid', label: 'Folyadék okozta kár', from: 14900, to: 59900, days: 5 }
+  ],
+  desktop: [
+    { id: 'clean', label: 'Tisztítás és új hőpaszta', from: 5900, to: 7900, days: 1 },
+    { id: 'psu', label: 'Tápegység-csere', from: 8900, to: 18900, days: 1 },
+    { id: 'ssd', label: 'SSD-csere és rendszer-átköltöztetés', from: 9900, to: 19900, days: 1 },
+    { id: 'ram', label: 'Memória cseréje vagy bővítése', from: 4900, to: 12900, days: 1 },
+    { id: 'gpu', label: 'Videókártya-csere', from: 7900, to: 29900, days: 2 },
+    { id: 'mobo', label: 'Alaplap-csere', from: 14900, to: 39900, days: 3 },
+    { id: 'data', label: 'Adatmentés sérült meghajtóról', from: 9900, to: 39900, days: 3 }
+  ],
+  phone: [
+    { id: 'screen', label: 'Kijelzőcsere', from: 15900, to: 44900, days: 1 },
+    { id: 'battery', label: 'Akkumulátor-csere', from: 8900, to: 15900, days: 1 },
+    { id: 'port', label: 'Töltőcsatlakozó cseréje', from: 8900, to: 14900, days: 1 },
+    { id: 'camera', label: 'Kameracsere', from: 9900, to: 24900, days: 2 },
+    { id: 'liquid', label: 'Folyadék okozta kár', from: 9900, to: 34900, days: 3 },
+    { id: 'data', label: 'Adatmentés és átköltöztetés', from: 9900, to: 29900, days: 3 }
+  ],
+  console: [
+    { id: 'clean', label: 'Tisztítás és új hőpaszta', from: 6900, to: 10900, days: 1 },
+    { id: 'pad', label: 'Kontroller javítása (stick drift, gombok)', from: 4900, to: 9900, days: 1 },
+    { id: 'psu', label: 'Tápegység-csere', from: 8900, to: 16900, days: 2 },
+    { id: 'hdmi', label: 'HDMI-port cseréje', from: 14900, to: 24900, days: 3 },
+    { id: 'drive', label: 'Lemezmeghajtó cseréje', from: 12900, to: 24900, days: 3 },
+    { id: 'reball', label: 'Chip-szintű forrasztás (reball)', from: 24900, to: 44900, days: 6 }
+  ],
+  monitor: [
+    { id: 'psu', label: 'Tápegység és kondenzátorok cseréje', from: 5900, to: 12900, days: 2 },
+    { id: 'backlight', label: 'Háttérvilágítás cseréje', from: 9900, to: 19900, days: 3 },
+    { id: 'input', label: 'Bemenet (HDMI, DVI, VGA) cseréje', from: 7900, to: 14900, days: 3 },
+    { id: 'crt', label: 'CRT: képcső beállítása, kondenzátorcsere', from: 9900, to: 19900, days: 4 }
+  ],
+  retro: [
+    { id: 'recap', label: 'Kondenzátor-csere (recap)', from: 9900, to: 24900, days: 3 },
+    { id: 'psu', label: 'Tápegység javítása vagy cseréje', from: 6900, to: 14900, days: 2 },
+    { id: 'chip', label: 'Hibás IC azonosítása és cseréje', from: 12900, to: 29900, days: 4 },
+    { id: 'mem', label: 'RAM- és ROM-teszt, csere', from: 5900, to: 12900, days: 2 },
+    { id: 'corrosion', label: 'Elemszivárgás okozta korrózió tisztítása', from: 7900, to: 19900, days: 2 },
+    { id: 'yellow', label: 'Műanyag sárgulásának kezelése', from: 8900, to: 16900, days: 3 },
+    { id: 'floppy', label: 'Hajlékonylemez-meghajtó szervize', from: 5900, to: 9900, days: 2 }
+  ]
+};
+
+const STAGES = ['Beérkezett', 'Diagnosztika', 'Árajánlat', 'Javítás', 'Teszt', 'Átvehető'];
+
+/* példa-javítások a követő bemutatásához */
+const TICKETS = {
+  'RB-2041': {
+    device: 'Lenovo ThinkPad T460', issue: 'Nem tölt, az akku gyorsan lemerül', stage: 3,
+    quote: '24 900 Ft (akku és tisztítás)', eta: 'holnap 16:00-ig',
+    log: [['11.07. 10:12', 'Beérkezett, átvételi lap kiállítva'], ['11.07. 14:40', 'Diagnosztika kész: akku 22 % kapacitás, a töltőport rendben'], ['11.08. 09:05', 'Árajánlatot elfogadta telefonon'], ['11.10. 08:30', 'Akkumulátor-csere folyamatban']]
+  },
+  'RB-2042': {
+    device: 'Dell OptiPlex 3020', issue: 'Nem indul, bekapcsoláskor sípol', stage: 1,
+    quote: 'diagnosztika után', eta: 'ma 18:00-ig árajánlat',
+    log: [['11.10. 09:20', 'Beérkezett, átvételi lap kiállítva'], ['11.10. 11:05', 'Memóriateszt fut, az első modul hibás lehet']]
+  },
+  'RB-2043': {
+    device: 'Commodore 64C', issue: 'Nincs kép, a tápegység melegszik', stage: 5,
+    quote: '16 900 Ft (tápegység és kondenzátorok)', eta: 'átvehető nyitvatartási időben',
+    log: [['11.03. 13:30', 'Beérkezett, átvételi lap kiállítva'], ['11.04. 10:00', 'Diagnosztika kész: a tápegység 5 V sínje ingadozik'], ['11.05. 15:20', 'Árajánlatot elfogadta e-mailben'], ['11.09. 12:10', 'Új kondenzátorok beforrasztva, 6 órás próba lefutott'], ['11.09. 16:45', 'Kész, átvehető']]
+  }
+};
+
+const FAQ = [
+  ['Nem nálatok vettem a gépet. Megjavítjátok?', 'Igen. A szerviz bármilyen gépre nyitva áll, nem kell nálunk vásárolnod. Behozhatod személyesen, vagy elküldheted csomagban.'],
+  ['Mennyibe kerül a diagnosztika?', 'Ingyenes, ha nálunk javíttatod a gépet. Ha a hibakeresés után nem kéred a javítást, 4 900 Ft. Árat csak a diagnosztika után mondunk, és javítani csak a jóváhagyásod után kezdünk.'],
+  ['Mennyi ideig tart a javítás?', 'Az akkucsere, a tisztítás és az SSD-csere többnyire egy munkanap. A kijelzőcsere két napig, az alaplap-szintű hiba legfeljebb egy hétig tarthat. A javítási kóddal az állását bármikor megnézheted.'],
+  ['Mi lesz az adataimmal?', 'A legtöbb javításhoz nem kell az adatokhoz nyúlni. Ha mégis, előbb másolatot készítünk, de csak a beleegyezéseddel. Beszámításnál a tárhelyet a szemed láttára töröljük, és kérésre jegyzőkönyvet adunk róla.'],
+  ['Milyen garanciát adtok?', 'Eladott gépre és alkatrészre 6 hónap. A javításra is 6 hónap jár, a kicserélt alkatrészre és a munkára egyaránt. Ha a hiba nem a használatból ered, megjavítjuk vagy kicseréljük, végső esetben visszafizetjük az árat.'],
+  ['Mi van, ha a javítás drágább, mint a gép?', 'Megmondjuk, mielőtt belekezdenénk. Ilyenkor beszámítjuk a gépet, vagy alkatrésznek megvesszük. A hibás gépért is adunk árat, és ami már semmire sem jó, azt díjmentesen átvesszük és szakszerűen leadjuk.'],
+  ['Hogyan számoljátok az árat a retro gépeknél?', 'Itt a kor előny. A 25 évnél idősebb, működő gép gyűjtői felárat kap. A tápegység, az eredeti doboz és a számla szintén emeli az árat.'],
+  ['Kerestek nekem egy konkrét gépet vagy alkatrészt?', 'Igen. Írd meg a típust vagy a jelölést, és szólunk, amint beérkezik hozzánk egy példány. A régi csatlakozókhoz, kártyákhoz és meghajtókhoz is gyűjtünk.'],
+  ['Visszavihetem, ha mégsem jó?', 'Az eladott gépet 14 napon belül, indoklás nélkül, ha nem sérült, és megvan minden tartozéka.']
+];
+/* ikonok, 160×120-as vászonra; az osztályok a CSS-ben színeződnek */
+const ICONS = {
+  cpu: '<rect class="f" x="42" y="22" width="76" height="76"/><rect class="t" x="58" y="38" width="44" height="44"/><path d="M54 22V10M70 22V10M90 22V10M106 22V10M54 98V110M70 98V110M90 98V110M106 98V110M42 40H30M42 58H30M42 78H30M118 40H130M118 58H130M118 78H130"/><circle class="tf" cx="50" cy="30" r="3"/>',
+  psu: '<rect class="f" x="24" y="24" width="112" height="72"/><circle cx="62" cy="60" r="26"/><circle class="tf" cx="62" cy="60" r="5"/><path class="t" d="M62 34V86M36 60H88M44 42L80 78M80 42L44 78" stroke-width="2"/><rect class="t" x="104" y="36" width="20" height="12"/><path d="M104 66H124M104 76H124"/>',
+  fan: '<rect class="f" x="30" y="10" width="100" height="100"/><circle cx="80" cy="60" r="38"/><circle class="tf" cx="80" cy="60" r="7"/><path class="t" d="M80 53C80 36 92 28 106 32M87 60C104 60 112 72 108 86M80 67C80 84 68 92 54 88M73 60C56 60 48 48 52 34"/><circle class="tf" cx="38" cy="18" r="3"/><circle class="tf" cx="122" cy="18" r="3"/><circle class="tf" cx="38" cy="102" r="3"/><circle class="tf" cx="122" cy="102" r="3"/>',
+  board: '<rect class="f" x="26" y="8" width="108" height="104"/><rect class="t" x="42" y="22" width="30" height="30"/><path d="M84 20H120M84 30H120M84 40H120M84 50H120"/><rect class="t" x="42" y="70" width="64" height="10"/><rect class="t" x="42" y="88" width="64" height="10"/><circle class="tf" cx="120" cy="96" r="4"/>',
+  battery: '<rect class="f" x="16" y="34" width="116" height="52"/><rect class="f" x="132" y="49" width="12" height="22"/><path class="t" d="M30 46V74M44 46V74M58 46V74"/><path d="M100 50L90 62H104L94 74"/>',
+  ssd: '<rect class="f" x="30" y="20" width="100" height="72"/><rect class="t" x="42" y="30" width="38" height="52"/><rect class="tf" x="92" y="32" width="26" height="10"/><path d="M92 54H118M92 64H118"/><path class="t" d="M44 102H116" stroke-width="5" stroke-dasharray="4 4"/>',
+  lcd: '<rect class="f" x="14" y="16" width="132" height="82"/><rect class="t" x="24" y="26" width="112" height="62"/><path d="M60 98V108M100 98V108M44 108H116"/>',
+  charger: '<rect class="f" x="14" y="38" width="64" height="44"/><path d="M78 60H104C116 60 118 40 130 40H146"/><rect class="f" x="146" y="32" width="12" height="16"/><path class="t" d="M24 50H60M24 60H60M24 70H60"/><path d="M78 52V68"/>',
+  ribbon: '<path class="f" d="M10 40H40V80H10Z"/><path class="t" d="M16 46H34M16 54H34M16 62H34M16 70H34"/><path d="M40 48H110M40 56H110M40 64H110M40 72H110"/><rect class="f" x="110" y="40" width="30" height="40"/><rect class="tf" x="118" y="52" width="14" height="16"/>',
+  card: '<rect class="f" x="12" y="30" width="136" height="50"/><rect class="t" x="24" y="40" width="30" height="30"/><path d="M70 42H124M70 52H124M70 62H124"/><path class="t" d="M20 90H140" stroke-width="6" stroke-dasharray="3 3"/><path d="M12 30V20H34V30"/>',
+  laptop: '<rect class="f" x="30" y="16" width="100" height="68"/><rect class="t" x="40" y="26" width="80" height="48"/><path class="f" d="M12 92H148L140 106H20Z"/><path d="M66 99H94"/>',
+  tower: '<rect class="f" x="50" y="10" width="60" height="100"/><rect x="60" y="22" width="40" height="9"/><rect class="t" x="60" y="38" width="40" height="9"/><path d="M60 62H100M60 70H100M60 78H100"/><circle class="f" cx="80" cy="95" r="6"/>',
+  crt: '<path class="f" d="M24 12H136V90H24Z"/><rect class="t" x="36" y="22" width="88" height="54"/><path class="t" d="M44 34H116M44 46H116M44 58H116" stroke-width="1.5"/><circle class="tf" cx="118" cy="84" r="2.5"/><path class="f" d="M58 90H102L110 108H50Z"/>',
+  c64: '<path class="f" d="M10 98L34 42H150V98Z"/><path class="t" d="M44 60H140M44 72H140M44 84H140" stroke-dasharray="9 5"/><rect class="tf" x="128" y="47" width="14" height="5"/>',
+  gameboy: '<rect class="f" x="48" y="8" width="64" height="104"/><rect class="t" x="56" y="16" width="48" height="38"/><path d="M62 82H78M70 74V90"/><circle cx="96" cy="80" r="5"/><circle cx="88" cy="90" r="5"/><path class="t" d="M92 102L106 96"/>',
+  keyboard: '<rect class="f" x="8" y="34" width="144" height="54"/><path class="t" d="M18 46H142M18 58H142M18 70H142" stroke-dasharray="10 5"/><path d="M44 79H116"/>',
+  floppy: '<path class="f" d="M34 12H114L126 24V108H34Z"/><rect x="56" y="12" width="46" height="30"/><rect class="t" x="86" y="18" width="9" height="18"/><rect class="f" x="46" y="62" width="68" height="46"/><path class="t" d="M54 74H106M54 84H96"/>',
+  ram: '<rect class="f" x="8" y="38" width="144" height="46"/><rect class="t" x="22" y="48" width="22" height="16"/><rect class="t" x="50" y="48" width="22" height="16"/><rect class="t" x="88" y="48" width="22" height="16"/><rect class="t" x="116" y="48" width="22" height="16"/><path class="t" d="M12 92H148" stroke-width="6" stroke-dasharray="3 3"/>',
+  gpu: '<rect class="f" x="4" y="22" width="8" height="70"/><rect class="f" x="12" y="26" width="140" height="58"/><circle cx="56" cy="55" r="19"/><circle cx="108" cy="55" r="19"/><circle class="tf" cx="56" cy="55" r="5"/><circle class="tf" cx="108" cy="55" r="5"/><path class="t" d="M40 92H140" stroke-width="6" stroke-dasharray="3 3"/>',
+  hdd: '<rect class="f" x="30" y="10" width="100" height="100"/><circle cx="80" cy="54" r="30"/><circle class="tf" cx="80" cy="54" r="6"/><path class="t" d="M80 54L112 24"/><circle class="tf" cx="40" cy="20" r="3"/><circle class="tf" cx="120" cy="20" r="3"/><circle class="tf" cx="40" cy="100" r="3"/><circle class="tf" cx="120" cy="100" r="3"/><rect class="t" x="48" y="94" width="40" height="8"/>',
+  cable: '<path class="f" d="M8 44H44L38 76H14Z"/><path class="t" d="M18 54H34M20 64H32"/><path d="M44 60C66 60 70 36 90 52S110 60 124 60"/><rect class="f" x="124" y="48" width="30" height="24"/><rect class="tf" x="132" y="55" width="14" height="10"/>',
+  phone: '<rect class="f" x="52" y="6" width="56" height="108"/><rect class="t" x="60" y="16" width="40" height="26"/><path d="M72 50H88"/><path class="t" d="M62 66H98M62 78H98M62 90H98M62 102H98" stroke-dasharray="8 4"/>',
+  console: '<path class="f" d="M12 62H148V102H12Z"/><path class="f" d="M30 62V46H130V62"/><rect class="t" x="46" y="26" width="68" height="20"/><circle class="tf" cx="28" cy="82" r="4"/><path class="t" d="M52 82H128M52 92H128"/>'
+};
+
+function iconSVG(key, cls) {
+  return '<svg class="' + (cls || 'pic') + '" viewBox="0 0 160 120" aria-hidden="true">' + (ICONS[key] || '') + '</svg>';
+}
+
+/* a logó fogaskereke, két körbe forduló nyíllal */
+function gearSVG() {
+  const cx = 50, cy = 50, ro = 45, ri = 37, teeth = 8, step = Math.PI * 2 / teeth;
+  const pts = [];
+  for (let i = 0; i < teeth; i++) {
+    const a = i * step - Math.PI / 2;
+    [[ri, -0.3], [ro, -0.2], [ro, 0.2], [ri, 0.3]].forEach(function (q) {
+      const ang = a + q[1] * step * 1.6;
+      pts.push((cx + q[0] * Math.cos(ang)).toFixed(1) + ',' + (cy + q[0] * Math.sin(ang)).toFixed(1));
+    });
+  }
+  function pt(r, deg) {
+    const a = deg * Math.PI / 180;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  }
+  function arc(r, a0, a1) {
+    const s = pt(r, a0), e = pt(r, a1);
+    return 'M' + s[0].toFixed(1) + ' ' + s[1].toFixed(1) + ' A' + r + ' ' + r + ' 0 0 1 ' + e[0].toFixed(1) + ' ' + e[1].toFixed(1);
+  }
+  function head(r, deg) {
+    const a = deg * Math.PI / 180, p = pt(r, deg);
+    const tx = -Math.sin(a), ty = Math.cos(a), nx = Math.cos(a), ny = Math.sin(a);
+    const q = [[p[0] + tx * 6, p[1] + ty * 6], [p[0] - tx * 1 + nx * 5.5, p[1] - ty * 1 + ny * 5.5], [p[0] - tx * 1 - nx * 5.5, p[1] - ty * 1 - ny * 5.5]];
+    return q.map(function (v) { return v[0].toFixed(1) + ',' + v[1].toFixed(1); }).join(' ');
+  }
+  return '<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" aria-hidden="true">' +
+    '<polygon points="' + pts.join(' ') + '"/>' +
+    '<circle cx="50" cy="50" r="26" stroke-width="4"/>' +
+    '<path d="' + arc(13, 205, 335) + '" stroke-width="4"/><polygon points="' + head(13, 335) + '" fill="currentColor" stroke-width="1"/>' +
+    '<path d="' + arc(13, 25, 155) + '" stroke-width="4"/><polygon points="' + head(13, 155) + '" fill="currentColor" stroke-width="1"/>' +
+    '</svg>';
+}
+/* ---- az oldal működése ---- */
+(function () {
+  'use strict';
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var num = groupNum;
+  var fold = function (s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+
+  var store = {
+    get: function (k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { window.localStorage.setItem(k, v); } catch (e) { /* nincs tárhely, nem baj */ } }
+  };
+
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    if (ok) done(); else toast('A másolás nem sikerült. Jelöld ki a szöveget, és másold ki kézzel.');
+  }
+  function copyText(text, okMsg) {
+    var done = function () { toast(okMsg); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+    } else { fallbackCopy(text, done); }
+  }
+
+  /* logó */
+  $$('[data-gear]').forEach(function (el) { el.innerHTML = gearSVG(); });
+
+  /* ---------- katalógus ---------- */
+  var state = { q: '', cat: 'all', sort: 'def' };
+  var ALL = PRODUCTS.concat(PARTS);
+  var cart = {};
+  var resvText = '';
+
+  (function loadCart() {
+    try {
+      var raw = store.get('reboot-cart');
+      if (!raw) return;
+      var o = JSON.parse(raw);
+      if (!o || typeof o !== 'object') return;
+      PRODUCTS.forEach(function (p) {
+        var q = o[p.id];
+        if (Number.isInteger(q) && q > 0) cart[p.id] = Math.min(q, p.stock);
+      });
+    } catch (e) { cart = {}; }
+  })();
+  function saveCart() { store.set('reboot-cart', JSON.stringify(cart)); }
+
+  function renderChips() {
+    $('#chips').innerHTML = CATS.map(function (c) {
+      var n = c.id === 'all' ? PRODUCTS.length : PRODUCTS.filter(function (p) { return p.cat === c.id; }).length;
+      return '<button class="chip" type="button" data-cat="' + c.id + '" aria-pressed="' + (state.cat === c.id) + '">' + esc(c.label) + '<span class="n">' + n + '</span></button>';
+    }).join('');
+  }
+
+  function visibleProducts() {
+    var q = fold(state.q.trim());
+    var list = PRODUCTS.filter(function (p) {
+      if (state.cat !== 'all' && p.cat !== state.cat) return false;
+      if (!q) return true;
+      return fold(p.name + ' ' + p.spec + ' ' + p.year).indexOf(q) !== -1;
+    });
+    var by = {
+      pa: function (a, b) { return a.price - b.price; },
+      pd: function (a, b) { return b.price - a.price; },
+      yo: function (a, b) { return a.year - b.year; },
+      yn: function (a, b) { return b.year - a.year; }
+    }[state.sort];
+    if (by) list = list.slice().sort(by);
+    return list;
+  }
+
+  var BG_A = '<path d="M0 20H30L40 30H70M0 100H24L34 90H64M160 30H134L124 20H104M160 98H140L130 108H100"/>';
+  var BG_B = '<path d="M0 30H26L36 20H66M0 92H30L40 102H72M160 22H130L120 32H98M160 104H138L128 94H104"/>';
+  var CAT_NAME = {};
+  CATS.forEach(function (c) { CAT_NAME[c.id] = c.label; });
+
+  function cardHTML(p, i) {
+    var inCart = cart[p.id] || 0;
+    var full = inCart >= p.stock;
+    var stockTxt = p.stock === 1 ? 'Utolsó darab' : (p.stock <= 2 ? 'Már csak ' + p.stock + ' db' : p.stock + ' db raktáron');
+    var btn = full ? 'Kosárban' : (inCart ? 'Még egyet' : 'Kosárba');
+    return '<article class="card">' +
+      '<div class="art"><svg class="bgtrace" viewBox="0 0 160 120" preserveAspectRatio="none" aria-hidden="true">' + (i % 2 ? BG_A : BG_B) + '</svg>' +
+      iconSVG(p.icon, 'pic') +
+      '<span class="grade">' + p.grade + ' fokozat</span></div>' +
+      '<div class="card-body">' +
+      '<p class="meta">' + p.year + ' · ' + esc(CAT_NAME[p.cat]) + '</p>' +
+      '<h3>' + esc(p.name) + '</h3>' +
+      '<p class="spec-line">' + esc(p.spec) + '</p>' +
+      '<div class="card-foot"><div><span class="price">' + fmtFt(p.price) + '</span><span class="stock' + (p.stock <= 2 ? ' low' : '') + '">' + stockTxt + (inCart ? ' · nálad: ' + inCart : '') + '</span></div>' +
+      '<button class="btn small" type="button" data-add="' + p.id + '"' + (full ? ' disabled' : '') + '>' + btn + '</button></div>' +
+      '</div></article>';
+  }
+
+  function renderCatalog() {
+    var list = visibleProducts();
+    $('#grid').innerHTML = list.length ? list.map(cardHTML).join('') : '<p class="empty">Nincs találat. Próbálj másik szót, vagy válaszd a „Minden” kategóriát.</p>';
+    $('#countLabel').textContent = list.length === PRODUCTS.length ? PRODUCTS.length + ' felújított gép raktáron' : list.length + ' / ' + PRODUCTS.length + ' gép';
+  }
+
+  $('#chips').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-cat]');
+    if (!b) return;
+    state.cat = b.getAttribute('data-cat');
+    renderChips(); renderCatalog();
+    var again = $('[data-cat="' + state.cat + '"]');
+    if (again) again.focus();
+  });
+  $('#q').addEventListener('input', function (e) { state.q = e.target.value; renderCatalog(); });
+  $('#sort').addEventListener('change', function (e) { state.sort = e.target.value; renderCatalog(); });
+  $('#grid').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-add]');
+    if (!b) return;
+    addToCart(b.getAttribute('data-add'), true);
+  });
+
+  /* ---------- alkatrészek ---------- */
+  var pstate = { q: '', cat: 'all', sort: 'def' };
+  var PCAT = {};
+  PART_CATS.forEach(function (c) { PCAT[c.id] = c.label; });
+
+  function renderPartChips() {
+    $('#partChips').innerHTML = PART_CATS.map(function (c) {
+      var n = c.id === 'all' ? PARTS.length : PARTS.filter(function (p) { return p.cat === c.id; }).length;
+      return '<button class="chip" type="button" data-pcat="' + c.id + '" aria-pressed="' + (pstate.cat === c.id) + '">' + esc(c.label) + '<span class="n">' + n + '</span></button>';
+    }).join('');
+  }
+
+  function visibleParts() {
+    var q = fold(pstate.q.trim());
+    var list = PARTS.filter(function (p) {
+      if (pstate.cat !== 'all' && p.cat !== pstate.cat) return false;
+      if (!q) return true;
+      return fold(p.name + ' ' + p.compat + ' ' + PCAT[p.cat]).indexOf(q) !== -1;
+    });
+    if (pstate.sort === 'pa') list = list.slice().sort(function (a, b) { return a.price - b.price; });
+    if (pstate.sort === 'pd') list = list.slice().sort(function (a, b) { return b.price - a.price; });
+    return list;
+  }
+
+  function partRow(p) {
+    var inCart = cart[p.id] || 0;
+    var full = inCart >= p.stock;
+    var stockTxt = p.stock <= 2 ? 'már csak ' + p.stock + ' db' : p.stock + ' db';
+    var btn = full ? 'Kosárban' : (inCart ? 'Még egyet' : 'Kosárba');
+    return '<div class="prow"><div class="thumb">' + iconSVG(p.icon, '') + '</div>' +
+      '<div><h3>' + esc(p.name) + '</h3><p class="p-compat">' + esc(PCAT[p.cat]) + ' · ' + esc(p.compat) + '</p></div>' +
+      '<div class="p-state"><b>' + p.grade + '</b><span' + (p.stock <= 2 ? ' class="low"' : '') + '>' + stockTxt + (inCart ? ' · nálad: ' + inCart : '') + '</span></div>' +
+      '<div class="p-buy"><span class="price">' + fmtFt(p.price) + '</span><button class="btn small" type="button" data-add="' + p.id + '"' + (full ? ' disabled' : '') + '>' + btn + '</button></div></div>';
+  }
+
+  function renderParts() {
+    var list = visibleParts();
+    $('#partList').innerHTML = list.length ? list.map(partRow).join('') : '<p class="empty">Nincs találat. Próbálj másik szót, vagy írd meg nekünk, mit keresel.</p>';
+    $('#partCount').textContent = list.length === PARTS.length ? PARTS.length + ' alkatrész raktáron' : list.length + ' / ' + PARTS.length + ' alkatrész';
+  }
+
+  function refresh() { renderCatalog(); renderParts(); renderCart(); }
+
+  $('#partChips').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-pcat]');
+    if (!b) return;
+    pstate.cat = b.getAttribute('data-pcat');
+    renderPartChips(); renderParts();
+    var again = $('[data-pcat="' + pstate.cat + '"]');
+    if (again) again.focus();
+  });
+  $('#partQ').addEventListener('input', function (e) { pstate.q = e.target.value; renderParts(); });
+  $('#partSort').addEventListener('change', function (e) { pstate.sort = e.target.value; renderParts(); });
+  $('#partList').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-add]');
+    if (!b) return;
+    addToCart(b.getAttribute('data-add'), true);
+  });
+  $('#partAsk').addEventListener('click', function () {
+    fillForm('Alkatrész keresése', 'Ezt az alkatrészt keresem:\nGép típusa vagy az alkatrész jelölése:\n');
+  });
+
+  /* ---------- kosár ---------- */
+  var lastFocus = null;
+
+  function findP(id) { return ALL.filter(function (p) { return p.id === id; })[0]; }
+
+  function addToCart(id, announce) {
+    var p = findP(id);
+    if (!p) return;
+    var q = cart[id] || 0;
+    if (q >= p.stock) { toast('Ebből ennyi van raktáron.'); return; }
+    cart[id] = q + 1;
+    resvText = '';
+    saveCart(); refresh();
+    if (announce) {
+      toast(p.name + ' a kosárban');
+      var again = $('[data-add="' + id + '"]');
+      if (again && !again.disabled) again.focus();
+    }
+  }
+  function setQty(id, q) {
+    var p = findP(id);
+    if (!p) return;
+    if (q <= 0) delete cart[id]; else cart[id] = Math.min(q, p.stock);
+    resvText = '';
+    saveCart(); refresh();
+  }
+
+  function cartLines() {
+    return Object.keys(cart).filter(function (id) { return cart[id] > 0 && findP(id); });
+  }
+
+  function summaryText() {
+    var t = cartTotals(cart, ALL);
+    var code = 'RB-' + Date.now().toString(36).toUpperCase().slice(-6);
+    var rows = cartLines().map(function (id) {
+      var p = findP(id);
+      return cart[id] + ' × ' + p.name + ' · ' + fmtFt(cart[id] * p.price);
+    });
+    return 'ReBoot foglalás ' + code + '\n' + rows.join('\n') + '\nÖsszesen: ' + fmtFt(t.total);
+  }
+
+  function renderCart() {
+    var ids = cartLines();
+    var t = cartTotals(cart, ALL);
+    var badge = $('#cartCount');
+    badge.textContent = t.count;
+    badge.hidden = t.count === 0;
+    var body = $('#cartBody'), foot = $('#cartFoot');
+
+    if (!ids.length) {
+      body.innerHTML = '<p class="empty" style="margin-top:18px">A kosarad üres. Válassz a boltból vagy az alkatrészek közül.</p>';
+      foot.innerHTML = '<a class="btn" href="#bolt" data-close>Bolt és alkatrészek</a>';
+      return;
+    }
+
+    body.innerHTML = ids.map(function (id) {
+      var p = findP(id), q = cart[id];
+      return '<div class="line">' +
+        '<div class="thumb">' + iconSVG(p.icon, '') + '</div>' +
+        '<div><div class="nm">' + esc(p.name) + '</div><div class="pr">' + fmtFt(p.price) + ' / db</div>' +
+        '<div class="qty"><button type="button" data-dec="' + id + '" aria-label="Kevesebb: ' + esc(p.name) + '">−</button><span>' + q + '</span>' +
+        '<button type="button" data-inc="' + id + '" aria-label="Több: ' + esc(p.name) + '"' + (q >= p.stock ? ' disabled' : '') + '>+</button></div></div>' +
+        '<div><div class="sum">' + fmtFt(q * p.price) + '</div><button class="rm" type="button" data-rm="' + id + '">Törlés</button></div>' +
+        '</div>';
+    }).join('');
+
+    if (resvText) {
+      foot.innerHTML = '<div class="total"><span>Összesen</span><strong>' + fmtFt(t.total) + '</strong></div>' +
+        '<div class="resv" id="resvBox">' + esc(resvText) + '</div>' +
+        '<p class="fine">Írd meg ezt a <span class="mono" style="user-select:all">hello@reboot-tech.example</span> címre, vagy mutasd meg a boltban. Ez az oldal bemutató, nem küld megrendelést.</p>' +
+        '<button class="btn primary" type="button" id="copyResv">Foglalás másolása</button>' +
+        '<button class="btn" type="button" id="toForm">Átteszem az üzenetbe</button>';
+    } else {
+      foot.innerHTML = '<div class="total"><span>Összesen</span><strong>' + fmtFt(t.total) + '</strong></div>' +
+        '<button class="btn primary" type="button" id="makeResv">Foglalás összegzése</button>' +
+        '<p class="fine">Az összegzést kimásolhatod, vagy beteheted a kapcsolati űrlapba.</p>';
+    }
+  }
+
+  function openCart() {
+    lastFocus = document.activeElement;
+    renderCart();
+    $('#backdrop').hidden = false;
+    var d = $('#drawer');
+    d.inert = false;
+    $('.page').inert = true;
+    d.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    $('#closeCart').focus();
+  }
+  function closeCart() {
+    var d = $('#drawer');
+    d.classList.remove('open');
+    d.inert = true;
+    $('.page').inert = false;
+    $('#backdrop').hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  $('#cartBtn').addEventListener('click', openCart);
+  $('#closeCart').addEventListener('click', closeCart);
+  $('#backdrop').addEventListener('click', closeCart);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && $('#drawer').classList.contains('open')) closeCart();
+  });
+
+  function fillForm(topic, text) {
+    $('#cTopic').value = topic;
+    $('#cMsg').value = text;
+    $('#composed').hidden = true;
+    $('#kapcsolat').scrollIntoView();
+    $('#cName').focus({ preventScroll: true });
+  }
+
+  $('#drawer').addEventListener('click', function (e) {
+    var el = e.target.closest('button, a');
+    if (!el) return;
+    if (el.hasAttribute('data-close')) { closeCart(); return; }
+    if (el.hasAttribute('data-inc')) { var a = el.getAttribute('data-inc'); setQty(a, (cart[a] || 0) + 1); return; }
+    if (el.hasAttribute('data-dec')) { var b = el.getAttribute('data-dec'); setQty(b, (cart[b] || 0) - 1); return; }
+    if (el.hasAttribute('data-rm')) { setQty(el.getAttribute('data-rm'), 0); return; }
+    if (el.id === 'makeResv') { resvText = summaryText(); renderCart(); return; }
+    if (el.id === 'copyResv') { copyText(resvText, 'Foglalás kimásolva'); return; }
+    if (el.id === 'toForm') {
+      var txt = resvText;
+      closeCart();
+      fillForm('Foglalás a kosárból', txt);
+    }
+  });
+
+  /* ---------- beszámítás ---------- */
+  function buildCalc() {
+    $('#typeOpts').innerHTML = CALC_TYPES.map(function (t, i) {
+      return '<label class="opt"><input type="radio" name="ctype" value="' + t.id + '"' + (i === 0 ? ' checked' : '') + '><span>' + esc(t.label) + '</span></label>';
+    }).join('');
+    $('#condOpts').innerHTML = CALC_CONDS.map(function (c, i) {
+      return '<label class="opt"><input type="radio" name="ccond" value="' + c.id + '"' + (i === 0 ? ' checked' : '') + '><span>' + esc(c.label) + '</span></label>';
+    }).join('');
+    $('#accOpts').innerHTML = CALC_ACCS.map(function (a) {
+      return '<label class="opt"><input type="checkbox" value="' + a.id + '"><span>' + esc(a.label) + '</span></label>';
+    }).join('');
+  }
+
+  var MAX_SCALE = 120000;
+  var lastOffer = '';
+
+  function labelOf(list, id) { return list.filter(function (x) { return x.id === id; })[0].label; }
+
+  function updateCalc() {
+    var type = $('input[name="ctype"]:checked').value;
+    var cond = $('input[name="ccond"]:checked').value;
+    var accs = $$('#accOpts input:checked').map(function (i) { return i.value; });
+    var ageEl = $('#age');
+    var retro = type === 'retro';
+    ageEl.min = retro ? RETRO_MIN_AGE : 0;
+    if (+ageEl.value < +ageEl.min) ageEl.value = ageEl.min;
+    var age = +ageEl.value;
+    $('#ageOut').textContent = age + ' év';
+    $('#ageHint').textContent = retro
+      ? 'A retro gépek értéke a korral nő. 25 éves kortól gyűjtői felárat számítunk.'
+      : 'Nagyjából négyévente feleződik a gép értéke.';
+
+    var e = estimate(type, age, cond, accs);
+    var scrap = e.raw < 1500;
+    $('#outCash').textContent = scrap ? 'kb. ' + fmtFt(e.mid) : num(e.low) + ' – ' + num(e.high) + '\u00a0Ft';
+    $('#outVoucher').textContent = fmtFt(e.voucher);
+
+    var left = Math.min(100, e.low / MAX_SCALE * 100);
+    var width = Math.max(0.8, Math.min(100 - left, (e.high - e.low) / MAX_SCALE * 100));
+    $('#band').style.left = left + '%';
+    $('#band').style.width = width + '%';
+
+    $('#outNote').textContent = scrap
+      ? 'Ami már nem javítható, azt elektronikai hulladékként díjmentesen átvesszük.'
+      : 'A bolti utalvány a közepes becslés 120%-a. A végleges árat megtekintés után mondjuk meg.';
+
+    var accTxt = accs.length ? accs.map(function (id) { return labelOf(CALC_ACCS, id).toLowerCase(); }).join(', ') : 'nincs';
+    lastOffer = 'Beszámítási ajánlatot kérek.\nGép: ' + labelOf(CALC_TYPES, type) + ', ' + age + ' éves, ' + labelOf(CALC_CONDS, cond).toLowerCase() + '.\nTartozék: ' + accTxt + '.\nBecsült ár: ' + (scrap ? 'kb. ' + fmtFt(e.mid) : num(e.low) + ' – ' + num(e.high) + '\u00a0Ft') + '.';
+  }
+
+  buildCalc();
+  $('#calcForm').addEventListener('submit', function (e) { e.preventDefault(); });
+  $('#calcForm').addEventListener('input', updateCalc);
+  $('#calcForm').addEventListener('change', updateCalc);
+  $('#askBtn').addEventListener('click', function () { fillForm('Beszámítási ajánlat', lastOffer); });
+  updateCalc();
+
+  /* ---------- szerviz: javítási árbecslő ---------- */
+  var svc = { type: 'laptop', age: 6, picked: { battery: true, cooling: true } };
+  var svcSummary = null;
+
+  function typeLabel(id) { return labelOf(CALC_TYPES, id); }
+
+  function buildSvcTypes() {
+    $('#svcTypes').innerHTML = CALC_TYPES.map(function (t) {
+      return '<button class="chip" type="button" data-svctype="' + t.id + '" aria-pressed="' + (svc.type === t.id) + '">' + esc(t.label) + '</button>';
+    }).join('');
+  }
+  function buildSvcList() {
+    var list = SERVICES[svc.type] || [];
+    $('#svcList').innerHTML = list.map(function (s) {
+      return '<label class="svc-row"><input type="checkbox" value="' + s.id + '"' + (svc.picked[s.id] ? ' checked' : '') + '>' +
+        '<span class="box" aria-hidden="true"></span><span class="svc-name">' + esc(s.label) + '</span>' +
+        '<span class="svc-meta">' + num(s.from) + ' – ' + num(s.to) + ' Ft · ' + s.days + ' nap</span></label>';
+    }).join('');
+  }
+
+  function updateSvc() {
+    var ageEl = $('#svcAge'), retro = svc.type === 'retro';
+    ageEl.min = retro ? RETRO_MIN_AGE : 0;
+    if (svc.age < +ageEl.min) svc.age = +ageEl.min;
+    ageEl.value = svc.age;
+    $('#svcAgeOut').textContent = svc.age + ' év';
+    $('#svcAgeHint').textContent = retro
+      ? 'A retro gépek értéke a korral nő, ezért ritkán érdemes lemondani róluk.'
+      : 'A kor csak arra kell, hogy megmondjuk, megéri-e javítani.';
+
+    var list = SERVICES[svc.type] || [];
+    var ids = list.filter(function (s) { return svc.picked[s.id]; }).map(function (s) { return s.id; });
+    var value = estimate(svc.type, svc.age, 'good', []).mid;
+    var q = repairQuote(list, ids, value);
+    var pct = Math.round(q.ratio * 100);
+
+    $('#svcCost').textContent = q.count ? num(q.low) + ' – ' + num(q.high) + '\u00a0Ft' : '–';
+    $('#svcDays').textContent = q.count ? 'kb. ' + q.days + ' munkanap' : '–';
+    $('#svcDiag').textContent = fmtFt(q.diag);
+
+    var adv = {
+      none: '<b>Nem tudod, mi a baj?</b>Hozd el, és kiderítjük. A diagnosztika ingyenes, ha nálunk javíttatod, egyébként ' + fmtFt(DIAG_FEE) + '.',
+      good: '<b>Megéri javítani</b>A költség a gép felvásárlási értékének kb. ' + pct + '%-a (érték: ' + fmtFt(value) + ').',
+      think: '<b>Érdemes mérlegelni</b>A javítás a gép felvásárlási értékének kb. ' + pct + '%-a (érték: ' + fmtFt(value) + '). Ha van másik géped, nézd meg a <a href="#felvasarlas">beszámítást</a> is.',
+      swap: '<b>Valószínűleg nem éri meg</b>A javítás kb. ' + pct + '%-a a gép felvásárlási értékének (érték: ' + fmtFt(value) + '). Kérj <a href="#felvasarlas">beszámítási ajánlatot</a>, vagy add el alkatrésznek.'
+    };
+    $('#svcAdvice').innerHTML = adv[q.level];
+    $('#svcNote').textContent = 'Az ár alkatrésszel és munkadíjjal együtt értendő' + (q.discount ? ', a több tétel miatti 10% kedvezménnyel.' : '.') + ' A pontos összeget diagnosztika után mondjuk meg, javítani csak a jóváhagyásod után kezdünk.';
+
+    svcSummary = {
+      device: typeLabel(svc.type) + ', ' + svc.age + ' éves',
+      issues: list.filter(function (s) { return svc.picked[s.id]; }).map(function (s) { return s.label; }),
+      estimate: q.count ? num(q.low) + ' – ' + num(q.high) + ' Ft, átfutás kb. ' + q.days + ' munkanap' : ''
+    };
+    renderAttach();
+  }
+
+  function renderAttach() {
+    var s = svcSummary, el = $('#svcAttach');
+    if (!s || !el) return;
+    el.innerHTML = '<span class="att-k">Magunktól hozzáfűzzük</span>' +
+      '<span class="att-row"><b>Gép</b><span>' + esc(s.device) + '</span></span>' +
+      '<span class="att-row"><b>Kijelölt hibák</b><span>' + (s.issues.length ? esc(s.issues.join('; ')) : 'nincs kijelölve, csak a leírásod megy el') + '</span></span>' +
+      (s.estimate ? '<span class="att-row"><b>Becslés</b><span>' + esc(s.estimate) + '</span></span>' : '');
+  }
+
+  $('#svcForm').addEventListener('submit', function (e) { e.preventDefault(); });
+  $('#svcTypes').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-svctype]');
+    if (!b) return;
+    svc.type = b.getAttribute('data-svctype');
+    svc.picked = {};
+    $$('[data-svctype]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    buildSvcList(); updateSvc();
+  });
+  $('#svcList').addEventListener('change', function (e) {
+    var i = e.target.closest('input[type="checkbox"]');
+    if (!i) return;
+    svc.picked[i.value] = i.checked;
+    updateSvc();
+  });
+  $('#svcAge').addEventListener('input', function (e) { svc.age = +e.target.value; updateSvc(); });
+  $('#svcAsk').addEventListener('click', function () {
+    $('#svcReq').scrollIntoView();
+    $('#svcDesc').focus({ preventScroll: true });
+  });
+
+  /* ---------- szerviz: részletes kérés és levél ---------- */
+  var SVC_FIELDS = { desc: ['#svcDesc', '#svcDescErr'], name: ['#svcName', '#svcNameErr'], email: ['#svcMail', '#svcMailErr'] };
+  var mailText = '';
+
+  function readReq() {
+    return { desc: $('#svcDesc').value, name: $('#svcName').value, email: $('#svcMail').value, phone: $('#svcPhone').value };
+  }
+  function showReqErrors(errs, focusFirst) {
+    var first = true;
+    Object.keys(SVC_FIELDS).forEach(function (k) {
+      var el = $(SVC_FIELDS[k][0]), msg = $(SVC_FIELDS[k][1]);
+      if (errs[k]) {
+        el.setAttribute('aria-invalid', 'true');
+        msg.textContent = errs[k];
+        if (focusFirst && first) el.focus();
+        first = false;
+      } else {
+        el.removeAttribute('aria-invalid');
+        msg.textContent = '';
+      }
+    });
+  }
+  function openMail(url) {
+    try {
+      var a = document.createElement('a');
+      a.href = url; a.target = '_blank'; a.rel = 'noopener';
+      a.style.display = 'none';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    } catch (e) { /* marad a másolható változat */ }
+  }
+
+  $('#svcReq').addEventListener('input', function () {
+    var errs = validateRepair(readReq());
+    Object.keys(SVC_FIELDS).forEach(function (k) {
+      var el = $(SVC_FIELDS[k][0]);
+      if (el.getAttribute('aria-invalid') === 'true' && !errs[k]) {
+        el.removeAttribute('aria-invalid');
+        $(SVC_FIELDS[k][1]).textContent = '';
+      }
+    });
+    $('#svcDescCount').textContent = $('#svcDesc').value.length + ' / 1500';
+    $('#svcSent').hidden = true;
+  });
+
+  $('#svcReq').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = readReq();
+    var errs = validateRepair(f);
+    showReqErrors(errs, true);
+    if (Object.keys(errs).length) { $('#svcSent').hidden = true; return; }
+    var m = buildRepairMail({ name: f.name, email: f.email, phone: f.phone, desc: f.desc, device: svcSummary.device, issues: svcSummary.issues, estimate: svcSummary.estimate });
+    mailText = m.body;
+    $('#svcSentBody').textContent = m.body;
+    $('#svcOpenMail').href = m.mailto;
+    $('#svcTrunc').hidden = !m.truncated;
+    $('#svcSent').hidden = false;
+    openMail(m.mailto);
+    $('#svcSent').scrollIntoView({ block: 'nearest' });
+  });
+  $('#svcCopyMail').addEventListener('click', function () { copyText(mailText, 'Levél kimásolva'); });
+  $('#svcCopyAddr').addEventListener('click', function () { copyText(REPAIR_MAIL_TO, 'Cím kimásolva'); });
+
+  /* ---------- szerviz: állapotkövető ---------- */
+  function renderTicket(code) {
+    var t = ticketLookup(code, TICKETS);
+    var input = $('#tkCode'), err = $('#tkErr');
+    if (!t) {
+      input.setAttribute('aria-invalid', 'true');
+      err.textContent = 'Ilyen kódot nem találunk. Nézd meg az átvételi lapot, vagy próbáld a példakódok egyikét.';
+      return;
+    }
+    input.removeAttribute('aria-invalid');
+    err.textContent = '';
+    $$('[data-tk]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-tk') === t.id)); });
+    var stages = STAGES.map(function (s, i) {
+      var cls = i < t.stage ? 'done' : (i === t.stage ? 'cur' : '');
+      return '<li' + (cls ? ' class="' + cls + '"' : '') + (i === t.stage ? ' aria-current="step"' : '') + '>' + esc(s) + '</li>';
+    }).join('');
+    var log = t.log.map(function (r) { return '<li><time>' + esc(r[0]) + '</time><span>' + esc(r[1]) + '</span></li>'; }).join('');
+    $('#tkOut').innerHTML =
+      '<div class="tk-top"><h4>' + esc(t.device) + '</h4><span class="tk-code">' + esc(t.id) + '<span class="tk-example">példa</span></span></div>' +
+      '<ol class="stages" aria-label="A javítás állapota">' + stages + '</ol>' +
+      '<dl class="tk-dl"><div><dt>Hiba</dt><dd>' + esc(t.issue) + '</dd></div><div><dt>Jelenlegi állapot</dt><dd>' + esc(STAGES[t.stage]) + '</dd></div>' +
+      '<div><dt>Árajánlat</dt><dd>' + esc(t.quote) + '</dd></div><div><dt>Várható</dt><dd>' + esc(t.eta) + '</dd></div></dl>' +
+      '<ul class="tk-log">' + log + '</ul>';
+  }
+  $('#tkChips').innerHTML = Object.keys(TICKETS).map(function (k) {
+    return '<button class="chip" type="button" data-tk="' + k + '" aria-pressed="false">' + k + '</button>';
+  }).join('');
+  $('#tkChips').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tk]');
+    if (!b) return;
+    $('#tkCode').value = b.getAttribute('data-tk');
+    renderTicket(b.getAttribute('data-tk'));
+  });
+  $('#tkForm').addEventListener('submit', function (e) { e.preventDefault(); renderTicket($('#tkCode').value); });
+
+  /* ---------- GYIK ---------- */
+  $('#faq').innerHTML = FAQ.map(function (q, i) {
+    return '<details' + (i === 0 ? ' open' : '') + '><summary>' + esc(q[0]) + '</summary><p class="ans">' + esc(q[1]) + '</p></details>';
+  }).join('');
+
+  /* ---------- nyitvatartás ---------- */
+  function renderHours() {
+    var now = budapestNow();
+    $('#hours tbody').innerHTML = DAYS.map(function (d, i) {
+      var h = HOURS[i];
+      return '<tr' + (i === now.day ? ' class="today"' : '') + '><th scope="row">' + d + '</th><td>' + (h ? pad2(h[0]) + ':00 – ' + pad2(h[1]) + ':00' : 'zárva') + '</td></tr>';
+    }).join('');
+    var s = shopStatus(now.day, now.minutes);
+    var el = $('#status');
+    el.textContent = s.text;
+    el.className = 'status ' + (s.open ? 'open' : 'closed');
+  }
+  renderHours();
+  setInterval(renderHours, 60000);
+
+  /* ---------- kapcsolati űrlap ---------- */
+  var composedMsg = '';
+  $('#contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ok = true;
+    var name = $('#cName'), mail = $('#cMail'), msg = $('#cMsg');
+    function check(el, errEl, valid, text) {
+      if (valid) { el.removeAttribute('aria-invalid'); errEl.textContent = ''; return; }
+      el.setAttribute('aria-invalid', 'true');
+      errEl.textContent = text;
+      if (ok) el.focus();
+      ok = false;
+    }
+    check(name, $('#eName'), name.value.trim().length >= 2, 'Add meg a neved.');
+    check(mail, $('#eMail'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.value.trim()), 'Adj meg egy érvényes e-mail-címet.');
+    check(msg, $('#eMsg'), msg.value.trim().length >= 5, 'Írj néhány szót az üzenetbe.');
+    if (!ok) return;
+    composedMsg = 'Tárgy: ' + $('#cTopic').value + '\nNév: ' + name.value.trim() + '\nE-mail: ' + mail.value.trim() + '\n\n' + msg.value.trim();
+    $('#composedText').textContent = composedMsg;
+    $('#composed').hidden = false;
+    $('#composed').scrollIntoView({ block: 'nearest' });
+  });
+  $('#copyMsg').addEventListener('click', function () { copyText(composedMsg, 'Üzenet kimásolva'); });
+
+  /* ---------- téma ---------- */
+  var savedTheme = store.get('reboot-theme');
+  if (savedTheme === 'light' || savedTheme === 'dark') root.setAttribute('data-theme', savedTheme);
+  var darkMQ = window.matchMedia('(prefers-color-scheme: dark)');
+  function isDark() {
+    var t = root.getAttribute('data-theme');
+    return t ? t === 'dark' : darkMQ.matches;
+  }
+  var SUN = '<circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>';
+  var MOON = '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>';
+  function syncThemeBtn() { $('#themeBtn svg').innerHTML = isDark() ? SUN : MOON; }
+  $('#themeBtn').addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store.set('reboot-theme', next);
+    syncThemeBtn(); drawTraces();
+  });
+  if (darkMQ.addEventListener) darkMQ.addEventListener('change', function () { syncThemeBtn(); drawTraces(); });
+
+  /* ---------- áramköri nyomvonalak ---------- */
+  var cv = $('#traces');
+  var ctx = cv.getContext('2d');
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function drawTraces() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = window.innerWidth, H = window.innerHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    var cs = getComputedStyle(root);
+    var color = cs.getPropertyValue('--trace').trim() || '#9C7648';
+    var paper = cs.getPropertyValue('--paper').trim() || '#ECE5D4';
+    ctx.strokeStyle = color; ctx.fillStyle = color;
+    ctx.lineWidth = 1.6; ctx.lineJoin = 'round'; ctx.lineCap = 'square';
+    var band = Math.max(18, Math.min(260, (W - 1160) / 2 + 36));
+    var S = 11;
+
+    function pad(x, y, r) {
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = paper; ctx.fill();
+      ctx.stroke();
+    }
+    function chip(cx, cy, w, h) {
+      ctx.fillStyle = paper; ctx.fillRect(cx - w / 2, cy - h / 2, w, h);
+      ctx.strokeRect(cx - w / 2, cy - h / 2, w, h);
+      for (var i = 0; i < 5; i++) {
+        var py = cy - h / 2 + 7 + i * ((h - 14) / 4);
+        ctx.beginPath();
+        ctx.moveTo(cx - w / 2 - 6, py); ctx.lineTo(cx - w / 2, py);
+        ctx.moveTo(cx + w / 2, py); ctx.lineTo(cx + w / 2 + 6, py);
+        ctx.stroke();
+      }
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(cx - w / 2 + 6, cy - h / 2 + 6, 2, 0, Math.PI * 2); ctx.fill();
+    }
+    function db9(cx, cy) {
+      ctx.beginPath();
+      ctx.moveTo(cx - 20, cy - 9); ctx.lineTo(cx + 20, cy - 9); ctx.lineTo(cx + 15, cy + 9); ctx.lineTo(cx - 15, cy + 9); ctx.closePath();
+      ctx.fillStyle = paper; ctx.fill(); ctx.stroke();
+      ctx.fillStyle = color;
+      for (var i = 0; i < 5; i++) { ctx.beginPath(); ctx.arc(cx - 12 + i * 6, cy - 3, 1.4, 0, Math.PI * 2); ctx.fill(); }
+      for (var j = 0; j < 4; j++) { ctx.beginPath(); ctx.arc(cx - 9 + j * 6, cy + 3.5, 1.4, 0, Math.PI * 2); ctx.fill(); }
+    }
+
+    function side(dir, seed) {
+      var r = rng(seed);
+      var x0 = dir > 0 ? 0 : W;
+      var n = Math.max(2, Math.floor(band / S));
+      var pads = [];
+      ctx.fillStyle = color;
+      for (var k = 0; k < n; k++) {
+        var x = x0 + dir * (k * S + 6);
+        var y = -10;
+        ctx.beginPath(); ctx.moveTo(x, y);
+        while (y < H + 10) {
+          y += 40 + r() * 140;
+          ctx.lineTo(x, y);
+          if (r() < 0.42) {
+            var nx = x + dir * (r() < 0.5 ? -S : S);
+            var dist = Math.abs(nx - x0);
+            if (dist > 2 && dist < band) { x = nx; y += S; ctx.lineTo(x, y); }
+          }
+          if (r() < 0.1) {
+            pads.push([x, y]);
+            y += 30 + r() * 80;
+            ctx.moveTo(x, y);
+          }
+        }
+        ctx.stroke();
+      }
+      pads.forEach(function (p) { pad(p[0], p[1], 3.5); });
+
+      for (var b = 0; b < 8; b++) {
+        var by = r() * H;
+        var bx = x0 + dir * (Math.floor(r() * n) * S + 6);
+        var len = band * (0.3 + 0.6 * r());
+        var ex = x0 + dir * Math.min(band, Math.abs(bx - x0) + len);
+        ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(ex - dir * 6, by); ctx.lineTo(ex, by + 6); ctx.stroke();
+        pad(ex, by + 6, 3.5);
+      }
+      if (band >= 90) {
+        chip(x0 + dir * (band - 38), H * (0.28 + r() * 0.12), 28, 44);
+        chip(x0 + dir * (band - 38), H * (0.72 + r() * 0.1), 24, 38);
+        db9(x0 + dir * (band - 44), H * (0.52 + r() * 0.1));
+      }
+    }
+    side(1, 11);
+    side(-1, 29);
+  }
+  var resizeTimer;
+  window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawTraces, 150); });
+
+  /* ---------- indulás ---------- */
+  renderChips();
+  renderCatalog();
+  renderPartChips();
+  renderParts();
+  buildSvcTypes();
+  buildSvcList();
+  updateSvc();
+  renderTicket('RB-2041');
+  renderCart();
+  $('#doorShop').textContent = PRODUCTS.length;
+  $('#doorParts').textContent = PARTS.length;
+  syncThemeBtn();
+  drawTraces();
+})();
+</script>
+
+</body></html>
